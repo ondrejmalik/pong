@@ -18,7 +18,8 @@ namespace TemplateGame.Game
     {
         public _Direction Direction = _Direction.LD;
         Sprite sprite;
-        private int lastTime = 0;
+        private double lastTime = 0;
+        private float speedRatio = 1;
         public bool Move = false;
 
         public Ball()
@@ -56,26 +57,27 @@ namespace TemplateGame.Game
 
             if (Time.Current > lastTime + 1)
             {
-                lastTime = (int)Time.Current;
+                speedRatio = (float)(Time.Current - lastTime);
+                lastTime = Time.Current;
 
                 if (Move)
                 {
                     switch (Direction)
                     {
                         case _Direction.LU:
-                            Position = new Vector2(Position.X - 1, Position.Y - 1);
+                            Position = new Vector2(Position.X - 1 * speedRatio, Position.Y - 1 * speedRatio);
                             break;
 
                         case _Direction.LD:
-                            Position = new Vector2(Position.X - 1, Position.Y + 1);
+                            Position = new Vector2(Position.X - 1 * speedRatio, Position.Y + 1 * speedRatio);
                             break;
 
                         case _Direction.RU:
-                            Position = new Vector2(Position.X + 1, Position.Y - 1);
+                            Position = new Vector2(Position.X + 1 * speedRatio, Position.Y - 1 * speedRatio);
                             break;
 
                         case _Direction.RD:
-                            Position = new Vector2(Position.X + 1, Position.Y + 1);
+                            Position = new Vector2(Position.X + 1 * speedRatio, Position.Y + 1 * speedRatio);
                             break;
 
                         default:

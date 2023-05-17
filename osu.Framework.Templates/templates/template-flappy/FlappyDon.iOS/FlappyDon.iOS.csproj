@@ -20,7 +20,4 @@
   <ItemGroup>
     <ProjectReference Include="..\FlappyDon.Game\FlappyDon.Game.csproj" />
   </ItemGroup>
-  <ItemGroup Label="Package References">
-    <ProjectReference Include="..\..\..\..\osu.Framework.iOS\osu.Framework.iOS.csproj" />
-  </ItemGroup>
 </Project>

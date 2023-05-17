@@ -14,7 +14,7 @@ using UdpTest.Game;
 
 namespace TemplateGame.Game
 {
-    public partial class MainScreen : Screen
+    public partial class MainScreenClient : Screen
     {
         bool p1up = false;
         bool p1down = false;
@@ -33,9 +33,10 @@ namespace TemplateGame.Game
         Colider lowerColider;
         Colider leftColider;
         Colider rightColider;
+        private string[] UpdateData = new string[4];
         ConcurrentQueue<string[]> dataQueue = new ConcurrentQueue<string[]>();
-        private string[] UpdateData;
-        public MainScreen(bool isPlayer1)
+
+        public MainScreenClient(bool isPlayer1)
         {
             udp = new UdpListener(isPlayer1);
             this.isPlayer1 = isPlayer1;
@@ -46,6 +47,11 @@ namespace TemplateGame.Game
         {
             InternalChildren = new Drawable[]
             {
+                new Box
+                {
+                    Colour = Color4.Violet,
+                    RelativeSizeAxes = Axes.Both,
+                },
                 text = new SpriteText
                 {
                     Y = 20,
@@ -101,6 +107,7 @@ namespace TemplateGame.Game
             };
             Thread networkThread = new Thread(new ThreadStart(Networking));
             networkThread.Start();
+            ball.Move = false;
         }
 
         private void Networking()
@@ -112,7 +119,7 @@ namespace TemplateGame.Game
             {
                 if (Time.Current - lastTime > 2)
                 {
-                    data = udp.Networking(p1.Position, ball.Position, ball.Move);
+                    data = udp.Networking(p2.Position, ball.Position, ball.Move);
                     dataQueue.Enqueue(data);
                     lastTime = Time.Current;
                 }
@@ -121,11 +128,11 @@ namespace TemplateGame.Game
 
         protected override void Update()
         {
-            //-----------------Particles-----------------
-            //--------------Network Movement----------------
+            //-----------------Network Movement-----------------
             while (dataQueue.TryDequeue(out UpdateData))
             {
-                p2.Position = new Vector2(p2.Position.X, Convert.ToSingle(UpdateData[1]));
+                p1.Position = new Vector2(p1.Position.X, Convert.ToSingle(UpdateData[1]));
+                ball.Position = new Vector2(Convert.ToSingle(UpdateData[2]), Convert.ToSingle(UpdateData[3]));
                 ball.Move = Convert.ToBoolean(UpdateData[4]);
             }
 
@@ -135,109 +142,15 @@ namespace TemplateGame.Game
                 FixedUpdate();
             }
 
-            //-----------------------Check collision with borders-----------------------
-
-            if (upperColider.CheckCollision(ball.CollisionQuad))
-            {
-                if (ball.Direction == _Direction.LU)
-                {
-                    ball.Direction = _Direction.LD;
-                }
-
-                if (ball.Direction == _Direction.RU)
-                {
-                    ball.Direction = _Direction.RD;
-                }
-            }
-
-            if (lowerColider.CheckCollision(ball.CollisionQuad))
-            {
-                if (ball.Direction == _Direction.LD)
-                {
-                    ball.Direction = _Direction.LU;
-                }
-
-                if (ball.Direction == _Direction.RD)
-                {
-                    ball.Direction = _Direction.RU;
-                }
-            }
-
-            if (leftColider.CheckCollision(ball.CollisionQuad))
-            {
-                ball.Position = new osuTK.Vector2(0, 0);
-                ball.Move = false;
-                redPoints++;
-                text.Text = "Red Win!";
-            }
-
-            if (rightColider.CheckCollision(ball.CollisionQuad))
-            {
-                ball.Position = new osuTK.Vector2(0, 0);
-                ball.Move = false;
-                bluePoints++;
-                text.Text = "Blue Win!";
-            }
-
-            //-----------------------Check collision with players-----------------------
-            if (p1.CheckCollision(ball.CollisionQuad))
-            {
-                if (ball.Direction == _Direction.LU)
-                {
-                    ball.Direction = _Direction.RU;
-                }
-
-                if (ball.Direction == _Direction.LD)
-                {
-                    ball.Direction = _Direction.RD;
-                }
-            }
-
-            if (p2.CheckCollision(ball.CollisionQuad))
-            {
-                if (ball.Direction == _Direction.RU)
-                {
-                    ball.Direction = _Direction.LU;
-                }
-
-                if (ball.Direction == _Direction.RD)
-                {
-                    ball.Direction = _Direction.LD;
-                }
-            }
-
             base.Update();
         }
 
         private void FixedUpdate()
         {
-            if (p1up && p1.Position.Y > 10)
-            {
-                if (!ball.Move)
-                {
-                    ball.Move = true;
-                    text.Text = bluePoints + ":" + redPoints;
-                }
-
-                p1.Position = new osuTK.Vector2(p1.Position.X, p1.Position.Y - 1);
-            }
-
-            if (p1down && p1.Position.Y < DrawHeight - 110)
-            {
-                if (!ball.Move)
-                {
-                    ball.Move = true;
-                    text.Text = bluePoints + ":" + redPoints;
-                }
-
-                p1.Position = new osuTK.Vector2(p1.Position.X, p1.Position.Y + 1);
-            }
-
             if (p2up && p2.Position.Y > 10)
             {
                 if (!ball.Move)
                 {
-                    ball.Move = true;
                     text.Text = bluePoints + ":" + redPoints;
                 }
 
@@ -248,7 +161,6 @@ namespace TemplateGame.Game
             {
                 if (!ball.Move)
                 {
-                    ball.Move = true;
                     text.Text = bluePoints + ":" + redPoints;
                 }
 
@@ -260,20 +172,10 @@ namespace TemplateGame.Game
         {
             if (e.Key == Key.W)
             {
-                p1up = true;
-            }
-
-            if (e.Key == Key.S)
-            {
-                p1down = true;
-            }
-
-            if (e.Key == Key.Up)
-            {
                 p2up = true;
             }
 
-            if (e.Key == Key.Down)
+            if (e.Key == Key.S)
             {
                 p2down = true;
             }
@@ -285,20 +187,10 @@ namespace TemplateGame.Game
         {
             if (e.Key == Key.W)
             {
-                p1up = false;
-            }
-
-            if (e.Key == Key.S)
-            {
-                p1down = false;
-            }
-
-            if (e.Key == Key.Up)
-            {
                 p2up = false;
             }
 
-            if (e.Key == Key.Down)
+            if (e.Key == Key.S)
             {
                 p2down = false;
             }
