@@ -31,15 +31,16 @@ namespace TemplateGame.Game
                     {
                         Anchor = Anchor.Centre,
                         Origin = Anchor.Centre,
-                        Texture = textures.Get("particle.png")
+                        Texture = textures.Get("particle"),
                     },
                 }
             };
         }
 
-        protected override void Update()
+        protected override void LoadComplete()
         {
-            base.Update();
+            this.LifetimeEnd = Time.Current + 200;
+            base.LoadComplete();
         }
     }
 }

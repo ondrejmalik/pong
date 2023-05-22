@@ -12,6 +12,7 @@ namespace TemplateGame.Game
     {
         private bool isPlayer1 = false;
         private Sprite sprite;
+        public bool up, down;
 
         public Player(bool isPlayer1)
         {

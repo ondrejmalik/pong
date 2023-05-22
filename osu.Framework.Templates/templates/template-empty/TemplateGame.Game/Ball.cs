@@ -21,7 +21,6 @@ namespace TemplateGame.Game
         private double lastTime = 0;
         private float speedRatio = 1;
         public bool Move = false;
-
         public Ball()
         {
             AutoSizeAxes = Axes.Both;
@@ -43,7 +42,7 @@ namespace TemplateGame.Game
                     {
                         Anchor = Anchor.Centre,
                         Origin = Anchor.Centre,
-                        Texture = textures.Get("mic.png")
+                        Texture = textures.Get("mic1")
                     },
                 }
             };

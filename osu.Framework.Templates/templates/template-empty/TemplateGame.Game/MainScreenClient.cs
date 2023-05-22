@@ -6,6 +6,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
+using osu.Framework.Logging;
 using osu.Framework.Screens;
 using osuTK;
 using osuTK.Graphics;
@@ -134,6 +135,7 @@ namespace TemplateGame.Game
                 p1.Position = new Vector2(p1.Position.X, Convert.ToSingle(UpdateData[1]));
                 ball.Position = new Vector2(Convert.ToSingle(UpdateData[2]), Convert.ToSingle(UpdateData[3]));
                 ball.Move = Convert.ToBoolean(UpdateData[4]);
+                Logger.Log(ball.Move.ToString());
             }
 
             if (Time.Current > lastTime + 1)

@@ -46,7 +46,7 @@ namespace TemplateGame.Game
         {
             if (singleplayer.IsHovered)
             {
-                this.Push(new MainScreen(true));
+                this.Push(new MainScreen(false));
             }
 
             if (multiplayer.IsHovered)
