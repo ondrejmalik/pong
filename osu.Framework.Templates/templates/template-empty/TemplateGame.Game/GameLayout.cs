@@ -3,6 +3,7 @@ using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
+using osu.Framework.Graphics.UserInterface;
 using UdpTest.Game;
 
 namespace TemplateGame.Game
@@ -13,16 +14,17 @@ namespace TemplateGame.Game
         public double lastTime = 0;
         public int bluePoints = 0;
         public int redPoints = 0;
-        public int ParticlleFrequencyCount = 0;
         public SpriteText text;
         public Player p1;
         public Player p2;
         public Ball ball;
-        private double speedmultiplayer;
+        private float speedmultiplayer;
         Colider upperColider;
         Colider lowerColider;
         Colider leftColider;
         Colider rightColider;
+        public BasicButton UpperTouchBox;
+        public BasicButton LowerTouchBox;
         public ConcurrentQueue<string[]> dataQueue = new ConcurrentQueue<string[]>();
         public ParticleLayer particleLayer;
         public string[] UpdateData;
@@ -95,6 +97,22 @@ namespace TemplateGame.Game
                     }
                 }
             };
+            Box.Add(UpperTouchBox = new BasicButton()
+            {
+                Colour = Colour4.Transparent,
+                Anchor = Anchor.TopLeft,
+                Origin = Anchor.TopLeft,
+                Position = new osuTK.Vector2(0, 0),
+                Size = new osuTK.Vector2(1920, 540)
+            });
+            Box.Add(LowerTouchBox = new BasicButton()
+            {
+                Colour = Colour4.Transparent,
+                Anchor = Anchor.TopLeft,
+                Origin = Anchor.TopLeft,
+                Position = new osuTK.Vector2(0, 540),
+                Size = new osuTK.Vector2(1920, 540)
+            });
         }
 
         public void CheckCollisionsWithPlayers()
@@ -173,57 +191,50 @@ namespace TemplateGame.Game
 
         public void FixedUpdate()
         {
+            //Logger.Log("Update");
             if (Time.Current > lastTime + 1)
             {
+                speedmultiplayer = (float)(Time.Current - lastTime);
                 lastTime = Time.Current;
-                ParticlleFrequencyCount++;
+                particleLayer.particleFrequencyCount += 1 * speedmultiplayer;
 
                 if (p1.up && p1.Position.Y > 10)
                 {
-                    if (!ball.Move)
-                    {
-                        ball.Move = true;
-                        text.Text = bluePoints + ":" + redPoints;
-                    }
-
-                    p1.Position = new osuTK.Vector2(p1.Position.X, p1.Position.Y - 1);
+                    p1.Position = new osuTK.Vector2(p1.Position.X, p1.Position.Y - 1 * speedmultiplayer);
                 }
 
                 if (p1.down && p1.Position.Y < DrawHeight - 110)
                 {
-                    if (!ball.Move)
-                    {
-                        ball.Move = true;
-                        text.Text = bluePoints + ":" + redPoints;
-                    }
-
-                    p1.Position = new osuTK.Vector2(p1.Position.X, p1.Position.Y + 1);
+                    p1.Position = new osuTK.Vector2(p1.Position.X, p1.Position.Y + 1 * speedmultiplayer);
                 }
 
                 if (p2.up && p2.Position.Y > 10)
                 {
-                    if (!ball.Move)
-                    {
-                        ball.Move = true;
-                        text.Text = bluePoints + ":" + redPoints;
-                    }
-
-                    p2.Position = new osuTK.Vector2(p2.Position.X, p2.Position.Y - 1);
+                    p2.Position = new osuTK.Vector2(p2.Position.X, p2.Position.Y - 1 * speedmultiplayer);
                 }
 
                 if (p2.down && p2.Position.Y < DrawHeight - 110)
                 {
-                    if (!ball.Move)
-                    {
-                        ball.Move = true;
-                        text.Text = bluePoints + ":" + redPoints;
-                    }
-
-                    p2.Position = new osuTK.Vector2(p2.Position.X, p2.Position.Y + 1);
+                    p2.Position = new osuTK.Vector2(p2.Position.X, p2.Position.Y + 1 * speedmultiplayer);
                 }
 
                 particleLayer.AddParticle(ball.Position);
             }
+        }
+
+        public void BallStartMoving()
+        {
+            if (!ball.Move)
+            {
+                ball.Move = true;
+                text.Text = bluePoints + ":" + redPoints;
+            }
+        }
+
+        protected override void Dispose(bool isDisposing)
+        {
+            udp.Close();
+            base.Dispose(isDisposing);
         }
     }
 }

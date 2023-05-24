@@ -2,25 +2,26 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using a;
 using osuTK;
 
 namespace UdpTest.Game;
 
 public class UdpListener
 {
-    public UdpListener(bool isClient)
+    public UdpListener(bool isClient, string ip)
     {
         if (isClient)
         {
             this.client = new UdpClient();
-            this.serverIp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1235); //adresa na kterou se bude posilat
+            this.serverIp = new IPEndPoint(IPAddress.Parse(ip), 1235); //adresa na kterou se bude posilat
             this.server = new UdpClient(1236); //adresa serveru
             this.remoteIp = new IPEndPoint(IPAddress.Any, 0);
         }
         else
         {
             this.client = new UdpClient();
-            this.serverIp = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1236); //adresa na kterou se bude posilat
+            this.serverIp = new IPEndPoint(IPAddress.Parse(ip), 1236); //adresa na kterou se bude posilat
             this.server = new UdpClient(1235); //adresa serveru
             this.remoteIp = new IPEndPoint(IPAddress.Any, 0);
         }
@@ -32,10 +33,10 @@ public class UdpListener
     IPEndPoint serverIp;
     string[] cords = new string[1];
     string message = "";
-
+    public bool WaitingForDestroy = false;
     public string Listen()
     {
-        while (true)
+        while (WaitingForDestroy == false)
         {
             try
             {
@@ -47,16 +48,18 @@ public class UdpListener
             }
             catch (Exception e)
             {
+                //Close();
                 Console.WriteLine(e.ToString());
             }
         }
+        return  "";
     }
 
-    public void Send(Vector2 playerPos, Vector2 ballPos, bool moving)
+    public void Send(Vector2 playerPos, Vector2 ballPos, bool moving, string scoreText)
     {
         position cords1 = cordsInput(playerPos.X, playerPos.Y);
         position cords2 = cordsInput(ballPos.X, ballPos.Y);
-        string message = cords1.x + "," + cords1.y + "," + cords2.x + "," + cords2.y + "," + moving;
+        string message = cords1.x + "," + cords1.y + "," + cords2.x + "," + cords2.y + "," + moving + "," + scoreText;
         byte[] data = Encoding.ASCII.GetBytes(message);
         client.Send(data, data.Length, serverIp);
         Console.WriteLine($"Sent message: {message}");
@@ -71,14 +74,29 @@ public class UdpListener
         cords.y = y;
         return cords;
     }
-
-    public string[] Networking(Vector2 playerPos, Vector2 ballPos, bool moving)
+    public string[] HandShake()
+    {
+        string message = "";
+            try
+            {
+                message =GameSettings.ToString();
+                byte[] data = Encoding.ASCII.GetBytes(message);
+                client.Send(data, data.Length, serverIp);
+                message = Listen();
+            }
+            catch (Exception e)
+            {
+            }
+            cords = message.Split(',');
+            return cords;
+    }
+    public string[] Networking(Vector2 playerPos, Vector2 ballPos, bool moving, string scoreText)
     {
         while (true)
         {
             try
             {
-                Send(playerPos, ballPos, moving);
+                Send(playerPos, ballPos, moving, scoreText);
                 message = Listen();
             }
             catch (Exception e)
@@ -89,7 +107,15 @@ public class UdpListener
             return cords;
         }
     }
+
+    public void Close()
+    {
+        server.Close();
+        client.Close();
+        WaitingForDestroy = true;
+    }
 }
+
 
 struct position
 {

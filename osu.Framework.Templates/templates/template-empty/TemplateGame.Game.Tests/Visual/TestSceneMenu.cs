@@ -5,14 +5,15 @@ using NUnit.Framework;
 namespace TemplateGame.Game.Tests.Visual
 {
     [TestFixture]
-    public partial class TestSceneMainScreen : TemplateGameTestScene
+    public partial class TestSceneMenu : TemplateGameTestScene
     {
         // Add visual tests to ensure correct behaviour of your game: https://github.com/ppy/osu-framework/wiki/Development-and-Testing
         // You can make changes to classes associated with the tests and they will recompile and update immediately.
-
-        public TestSceneMainScreen()
+        ScreenStack stack;
+        public TestSceneMenu()
         {
-            Add(new ScreenStack(new MainScreen(false, "127.0.0.1")) { RelativeSizeAxes = Axes.Both });
+            Add(stack = new ScreenStack(new Menu()) { RelativeSizeAxes = Axes.Both });
+            AddStep("Show", () => stack.Push(new Menu() { RelativeSizeAxes = Axes.Both }));
         }
     }
 }

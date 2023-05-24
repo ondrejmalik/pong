@@ -10,8 +10,9 @@ namespace TemplateGame.Game
 {
     public partial class ServerClientMenu : Screen
     {
-        private Button server;
-        private Button client;
+        private MenuButton server;
+        private MenuButton client;
+        private BasicTextBox ipText;
 
         [BackgroundDependencyLoader]
         private void load()
@@ -20,25 +21,34 @@ namespace TemplateGame.Game
             {
                 new Box
                 {
-                    Colour = Color4.Violet,
+                    Colour = Color4.Goldenrod,
                     RelativeSizeAxes = Axes.Both,
                 },
-                server = new BasicButton()
+                server = new MenuButton()
                 {
                     Y = 100,
                     Text = "server",
-                    Size = new osuTK.Vector2(200, 50),
+                    Size = new osuTK.Vector2(400, 100),
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopCentre,
                 },
-                client = new BasicButton()
+                client = new MenuButton()
                 {
-                    Y = 200,
+                    Y = 300,
                     Text = "client",
-                    Size = new osuTK.Vector2(200, 50),
+                    Size = new osuTK.Vector2(400, 100),
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopCentre,
                 },
+                ipText = new BasicTextBox()
+                {
+                    Position = new osuTK.Vector2(0, 300),
+                    Size = new osuTK.Vector2(200, 50),
+                    Anchor = Anchor.TopCentre,
+                    Origin = Anchor.TopCentre,
+                    Text = "127.0.0.1",
+                    LengthLimit = 16,
+                }
             };
         }
 
@@ -46,15 +56,30 @@ namespace TemplateGame.Game
         {
             if (server.IsHovered)
             {
-                this.Push(new MainScreen(false));
+                this.Push(new MainScreen(false, ipText.Text.ToString()));
             }
 
             if (client.IsHovered)
             {
-                this.Push(new MainScreenClient(true));
+                this.Push(new MainScreen(true, ipText.Text.ToString()));
             }
 
             return base.OnMouseDown(e);
+        }
+
+        protected override bool OnTouchDown(TouchDownEvent e)
+        {
+            if (server.IsHovered)
+            {
+                this.Push(new MainScreen(false, ipText.Text.ToString()));
+            }
+
+            if (client.IsHovered)
+            {
+                this.Push(new MainScreen(true, ipText.Text.ToString()));
+            }
+
+            return base.OnTouchDown(e);
         }
     }
 }

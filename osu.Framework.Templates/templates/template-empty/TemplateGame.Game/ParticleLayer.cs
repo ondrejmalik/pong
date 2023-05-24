@@ -8,7 +8,7 @@ namespace TemplateGame.Game
     public partial class ParticleLayer : CompositeDrawable
     {
         private Container Box;
-        int particleFrequencyCount = 0;
+        public float particleFrequencyCount = 0;
 
         public ParticleLayer()
         {
@@ -42,7 +42,7 @@ namespace TemplateGame.Game
             }
             else
             {
-                particleFrequencyCount++;
+                //particleFrequencyCount++;
             }
         }
     }

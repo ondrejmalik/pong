@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using a;
 using osu.Framework.Graphics;
 using osu.Framework.Input.Events;
 using osuTK;
@@ -8,12 +9,14 @@ using UdpTest.Game;
 
 namespace TemplateGame.Game
 {
-    public partial class GameContainer : GameLayout
+    public partial class GameContainerClient : GameLayout
     {
-        public GameContainer(bool singlePlayer, string ip)
+        bool clicked = false;
+
+        public GameContainerClient(bool isPlayer1,string ip)
         {
             load();
-            udp = new UdpListener(false, ip);
+            udp = new UdpListener(isPlayer1, ip);
             RelativeSizeAxes = Axes.Both;
             Thread networkThread = new Thread(new ThreadStart(Networking));
             networkThread.Start();
@@ -33,13 +36,16 @@ namespace TemplateGame.Game
             {
                 Thread.Sleep(320);
             }
+
+            GameSettings.ScoreLimit = 1;
             string[] gameSettingsString = udp.HandShake();
 
-            while (udp.WaitingForDestroy == false)
+            while (true)
             {
                 if (Time.Current - lastTime > 2)
                 {
-                    data = udp.Networking(p1.Position, ball.Position, ball.Move, text.Text.ToString());
+
+                    data = udp.Networking(p2.Position, ball.Position, clicked,text.Text.ToString());
                     dataQueue.Enqueue(data);
                     lastTime = Time.Current;
                 }
@@ -48,17 +54,16 @@ namespace TemplateGame.Game
 
         protected override void Update()
         {
-            //--------------Network Movement----------------
+            //-----------------Network Movement-----------------
             while (dataQueue.TryDequeue(out UpdateData))
             {
-                p2.Position = new Vector2(p2.Position.X, Convert.ToSingle(UpdateData[1]));
-                if (!ball.Move) ball.Move = Convert.ToBoolean(UpdateData[4]);
+                p1.Position = new Vector2(p1.Position.X, Convert.ToSingle(UpdateData[1]));
+                ball.Position = new Vector2(Convert.ToSingle(UpdateData[2]), Convert.ToSingle(UpdateData[3]));
+                text.Text = UpdateData[5];
+                //ball.Move = Convert.ToBoolean(UpdateData[4]);
             }
 
             FixedUpdate();
-
-            CheckCollisionsWithBorders();
-            CheckCollisionsWithPlayers();
             base.Update();
         }
 
@@ -66,74 +71,32 @@ namespace TemplateGame.Game
         {
             if (e.Key == Key.W)
             {
-                p1.up = true;
+                p2.up = true;
             }
 
             if (e.Key == Key.S)
             {
-                p1.down = true;
-            }
-
-            if (e.Key == Key.Up)
-            {
-                p2.up = true;
-            }
-
-            if (e.Key == Key.Down)
-            {
                 p2.down = true;
             }
 
-            BallStartMoving();
+            clicked = true;
             return base.OnKeyDown(e);
-        }
-
-        protected override bool OnTouchDown(TouchDownEvent e)
-        {
-            if (UpperTouchBox.IsHovered)
-            {
-                p1.up = true;
-            }
-
-            if (LowerTouchBox.IsHovered)
-            {
-                p1.down = true;
-            }
-
-            BallStartMoving();
-            return base.OnTouchDown(e);
-        }
-
-        protected override void OnTouchUp(TouchUpEvent e)
-        {
-            p1.up = false;
-            p1.down = false;
-            base.OnTouchUp(e);
         }
 
         protected override void OnKeyUp(KeyUpEvent e)
         {
             if (e.Key == Key.W)
             {
-                p1.up = false;
+                p2.up = false;
             }
 
             if (e.Key == Key.S)
             {
-                p1.down = false;
-            }
-
-            if (e.Key == Key.Up)
-            {
-                p2.up = false;
-            }
-
-            if (e.Key == Key.Down)
-            {
                 p2.down = false;
             }
-        }
 
+            clicked = false;
+        }
         protected override void Dispose(bool isDisposing)
         {
             udp.Close();

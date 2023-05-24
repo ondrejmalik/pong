@@ -21,6 +21,7 @@ namespace TemplateGame.Game
         private double lastTime = 0;
         private float speedRatio = 1;
         public bool Move = false;
+
         public Ball()
         {
             AutoSizeAxes = Axes.Both;
@@ -52,8 +53,6 @@ namespace TemplateGame.Game
 
         protected override void Update()
         {
-            base.Update();
-
             if (Time.Current > lastTime + 1)
             {
                 speedRatio = (float)(Time.Current - lastTime);
@@ -85,6 +84,8 @@ namespace TemplateGame.Game
                     }
                 }
             }
+
+            base.Update();
         }
 
         public Quad CollisionQuad

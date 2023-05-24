@@ -1,7 +1,6 @@
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
-using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
 using osu.Framework.Screens;
 using osuTK.Graphics;
@@ -10,8 +9,9 @@ namespace TemplateGame.Game
 {
     public partial class Menu : Screen
     {
-        private Button singleplayer;
-        private Button multiplayer;
+        private MenuButton singleplayer;
+        private MenuButton multiplayer;
+        private MenuButton settings;
 
         [BackgroundDependencyLoader]
         private void load()
@@ -20,33 +20,44 @@ namespace TemplateGame.Game
             {
                 new Box
                 {
-                    Colour = Color4.Violet,
+                    Colour = Color4.Goldenrod,
                     RelativeSizeAxes = Axes.Both,
                 },
-                singleplayer = new BasicButton()
+                singleplayer = new MenuButton()
                 {
                     Y = 100,
                     Text = "Singleplayer",
-                    Size = new osuTK.Vector2(200, 50),
-                    Anchor = Anchor.TopCentre,
-                    Origin = Anchor.TopCentre,
                 },
-                multiplayer = new BasicButton()
+                multiplayer = new MenuButton()
                 {
-                    Y = 200,
+                    Y = 400,
                     Text = "Multiplayer",
-                    Size = new osuTK.Vector2(200, 50),
-                    Anchor = Anchor.TopCentre,
-                    Origin = Anchor.TopCentre,
+                },
+                settings = new MenuButton()
+                {
+                    Y = 700,
+                    Text = "Settings",
                 },
             };
         }
 
         protected override bool OnMouseDown(MouseDownEvent e)
         {
+            IsHovered();
+            return base.OnMouseDown(e);
+        }
+
+        protected override bool OnTouchDown(TouchDownEvent e)
+        {
+            IsHovered();
+            return base.OnTouchDown(e);
+        }
+
+        private void IsHovered()
+        {
             if (singleplayer.IsHovered)
             {
-                this.Push(new MainScreen(false));
+                this.Push(new MainScreen(false, "127.0.0.1"));
             }
 
             if (multiplayer.IsHovered)
@@ -54,7 +65,10 @@ namespace TemplateGame.Game
                 this.Push(new ServerClientMenu());
             }
 
-            return base.OnMouseDown(e);
+            if (settings.IsHovered)
+            {
+                this.Push(new SettingsScreen());
+            }
         }
     }
 }
