@@ -3,8 +3,8 @@
 
 using System;
 using System.IO;
-using a;
 using Newtonsoft.Json;
+using UdpTest.Game;
 
 public class SettingsLoader
 {

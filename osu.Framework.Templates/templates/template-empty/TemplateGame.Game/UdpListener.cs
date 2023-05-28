@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using a;
+using System.Threading;
 using osuTK;
 
 namespace UdpTest.Game;
@@ -34,6 +34,7 @@ public class UdpListener
     string[] cords = new string[1];
     string message = "";
     public bool WaitingForDestroy = false;
+
     public string Listen()
     {
         while (WaitingForDestroy == false)
@@ -52,7 +53,8 @@ public class UdpListener
                 Console.WriteLine(e.ToString());
             }
         }
-        return  "";
+
+        return "";
     }
 
     public void Send(Vector2 playerPos, Vector2 ballPos, bool moving, string scoreText)
@@ -74,22 +76,46 @@ public class UdpListener
         cords.y = y;
         return cords;
     }
-    public string[] HandShake()
+
+    public string[] HandShake(bool isClient)
     {
-        string message = "";
-            try
+        string HandshakeMessage = "";
+        string[] HandshakeArray = new string[1];
+        byte[] HandshakeData;
+
+        if (isClient)
+        {
+            HandshakeMessage = Listen();
+            HandshakeData = Encoding.ASCII.GetBytes(GameSettings.ToString());//Sends Clients Settings
+            client.Send(HandshakeData, HandshakeData.Length, serverIp);
+        }
+
+        else
+        {
+            bool success = false;
+
+            while (success == false)
             {
-                message =GameSettings.ToString();
-                byte[] data = Encoding.ASCII.GetBytes(message);
-                client.Send(data, data.Length, serverIp);
-                message = Listen();
+                try
+                {
+                    HandshakeMessage = GameSettings.ToString();
+                    HandshakeData = Encoding.ASCII.GetBytes(HandshakeMessage);
+                    client.Send(HandshakeData, HandshakeData.Length, serverIp);
+                    if (server.Available > 0) success = true;
+                    Thread.Sleep(32);
+                }
+                catch (Exception e)
+                {
+                }
             }
-            catch (Exception e)
-            {
-            }
-            cords = message.Split(',');
-            return cords;
+
+            HandshakeMessage = Listen();
+        }
+
+        HandshakeArray = HandshakeMessage.Split(';');
+        return HandshakeArray;
     }
+
     public string[] Networking(Vector2 playerPos, Vector2 ballPos, bool moving, string scoreText)
     {
         while (true)
@@ -115,7 +141,6 @@ public class UdpListener
         WaitingForDestroy = true;
     }
 }
-
 
 struct position
 {

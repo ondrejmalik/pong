@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using osu.Framework.Graphics;
 using osu.Framework.Input.Events;
+using osu.Framework.Logging;
 using osuTK;
 using osuTK.Input;
 using UdpTest.Game;
@@ -12,8 +13,10 @@ namespace TemplateGame.Game
     {
         public GameContainer(bool singlePlayer, string ip)
         {
+            this.ip = ip;
+            GameSettings.BallColour = 0;
             load();
-            udp = new UdpListener(false, ip);
+            handShakeUdp = new UdpListener(false, ip);
             RelativeSizeAxes = Axes.Both;
             Thread networkThread = new Thread(new ThreadStart(Networking));
             networkThread.Start();
@@ -33,11 +36,22 @@ namespace TemplateGame.Game
             {
                 Thread.Sleep(320);
             }
-            string[] gameSettingsString = udp.HandShake();
+
+            GameSettings.BallColour = 0;
+            GameSettings.PaddleColour = 2;
+            Scheduler.Add(() => p1.ChangeSkin()); //Change skin before handshake
+            Scheduler.Add(() => ball.ChangeSkin());
+            string[] gameSettingsString = handShakeUdp.HandShake(false);
+            GameSettings.SetSettings(gameSettingsString);
+            Scheduler.Add(() => p2.ChangeSkin()); //Change skin after handshake
+            Logger.Log("Handshake complete");
+            Logger.Log(GameSettings.ToString());
+            handShakeUdp.Close();
+            udp = new UdpListener(false, ip);
 
             while (udp.WaitingForDestroy == false)
             {
-                if (Time.Current - lastTime > 2)
+                if (Time.Current - lastTime > 1)
                 {
                     data = udp.Networking(p1.Position, ball.Position, ball.Move, text.Text.ToString());
                     dataQueue.Enqueue(data);
@@ -51,6 +65,7 @@ namespace TemplateGame.Game
             //--------------Network Movement----------------
             while (dataQueue.TryDequeue(out UpdateData))
             {
+                //Logger.Log(dataQueue.Count.ToString());
                 p2.Position = new Vector2(p2.Position.X, Convert.ToSingle(UpdateData[1]));
                 if (!ball.Move) ball.Move = Convert.ToBoolean(UpdateData[4]);
             }

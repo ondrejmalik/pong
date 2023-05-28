@@ -2,8 +2,10 @@ using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Input.Events;
+using osu.Framework.Logging;
 using osu.Framework.Screens;
 using osuTK.Graphics;
+using UdpTest.Game;
 
 namespace TemplateGame.Game
 {
@@ -39,6 +41,8 @@ namespace TemplateGame.Game
                     Text = "Settings",
                 },
             };
+            if (GameSettings.BallSpeed == 0) GameSettings.SetDefaluts();
+            Logger.Log(GameSettings.ToString());
         }
 
         protected override bool OnMouseDown(MouseDownEvent e)

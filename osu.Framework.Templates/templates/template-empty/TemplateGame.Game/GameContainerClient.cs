@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
-using a;
 using osu.Framework.Graphics;
 using osu.Framework.Input.Events;
+using osu.Framework.Logging;
 using osuTK;
 using osuTK.Input;
 using UdpTest.Game;
@@ -13,10 +13,11 @@ namespace TemplateGame.Game
     {
         bool clicked = false;
 
-        public GameContainerClient(bool isPlayer1,string ip)
+        public GameContainerClient(bool isPlayer1, string ip)
         {
+            this.ip = ip;
             load();
-            udp = new UdpListener(isPlayer1, ip);
+            handShakeUdp = new UdpListener(true, ip);
             RelativeSizeAxes = Axes.Both;
             Thread networkThread = new Thread(new ThreadStart(Networking));
             networkThread.Start();
@@ -37,16 +38,33 @@ namespace TemplateGame.Game
                 Thread.Sleep(320);
             }
 
-            GameSettings.ScoreLimit = 1;
-            string[] gameSettingsString = udp.HandShake();
+            GameSettings.PaddleColour = 1;
+            Scheduler.Add(() => p2.ChangeSkin()); //Change skin before handshake
+            string[] gameSettingsString = handShakeUdp.HandShake(true);
+            GameSettings.SetSettings(gameSettingsString);
+            ball.Skin = Convert.ToInt32(gameSettingsString[6]);
+            Scheduler.Add(() => ball.ChangeSkin());
+            Scheduler.Add(() => p1.ChangeSkin()); //Change skin after handshake
+            Logger.Log("Handshake complete");
+            handShakeUdp.Close();
+            udp = new UdpListener(true, ip);
 
             while (true)
             {
-                if (Time.Current - lastTime > 2)
+                if (Time.Current - lastTime > 1)
                 {
+                    data = udp.Networking(p2.Position, ball.Position, clicked, text.Text.ToString());
 
-                    data = udp.Networking(p2.Position, ball.Position, clicked,text.Text.ToString());
-                    dataQueue.Enqueue(data);
+                    if (1 < data.Length)
+                    {
+                        dataQueue.Enqueue(data);
+                    }
+                    else
+                    {
+                        Logger.Log("No data");
+                        Logger.Log(data.ToString());
+                    }
+
                     lastTime = Time.Current;
                 }
             }
@@ -57,6 +75,7 @@ namespace TemplateGame.Game
             //-----------------Network Movement-----------------
             while (dataQueue.TryDequeue(out UpdateData))
             {
+                //Logger.Log(dataQueue.Count.ToString());
                 p1.Position = new Vector2(p1.Position.X, Convert.ToSingle(UpdateData[1]));
                 ball.Position = new Vector2(Convert.ToSingle(UpdateData[2]), Convert.ToSingle(UpdateData[3]));
                 text.Text = UpdateData[5];
@@ -97,6 +116,7 @@ namespace TemplateGame.Game
 
             clicked = false;
         }
+
         protected override void Dispose(bool isDisposing)
         {
             udp.Close();

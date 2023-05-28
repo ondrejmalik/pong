@@ -51,10 +51,6 @@ X
 (osu.Framework/Allocation/TripleBuffer.cs,9\1\919a38cc5830c71c67734d797e081462b5f091d6
 T
 $osu.Framework/Platform/SDL2Window.cs,0\8\08bc71cd5f22e15c3769c8c695d67efcb8a9544c
-O
-osu.Framework/Logging/Logger.cs,b\9\b9dbba22cacf39482b0a3637a61777513d8873a2
-S
-#osu.Framework/Audio/AudioManager.cs,d\2\d200725ca57252a415f79846d3dfc80729941db1
 R
 "osu.Framework/Platform/GameHost.cs,6\7\67324969ab01d136f075c0f7c2fabfe5e094702c
 _
@@ -87,8 +83,6 @@ L
 SampleGame/SampleGameGame.cs,6\2\62c9b1c91c9b147f2b7b0d0875ae6ff41b7901e7
 Š
 Zosu.Framework.Templates/templates/template-empty/TemplateGame.Game/TemplateGameGameBase.cs,0\8\0893c9c51140d8915004d82a69add22cf4edd1d5
-|
-Losu.Framework.Templates/templates/template-empty/TemplateGame.Game/Player.cs,1\b\1bb780daaef02b2e99e30e426480db36a00308fd
 T
 $osu.Framework/IO/Stores/FontStore.cs,f\3\f30cb31e153169b4871df44752fe370e4ede51b1
 ]
@@ -97,17 +91,25 @@ $osu.Framework/IO/Stores/FontStore.cs,f\3\f30cb31e153169b4871df44752fe370e4ede5
 Vosu.Framework.Templates/templates/template-empty/TemplateGame.Game/TemplateGameGame.cs,e\a\ea816516203c99313f0c9deb524d83cf07b8f726
 P
  osu.Framework/Screens/IScreen.cs,e\a\eaf2b312f8031ee34c488e3ac84753198d6e21d2
-Y
-)osu.Framework/Input/ButtonEventManager.cs,4\4\4455ec97df0640c3637dd80eb4ff1595a06ba266
-T
-$osu.Framework/Graphics/Shapes/Box.cs,b\9\b9455987d56e8b1c5d3f1f6cb129ff519595a176
 ^
 .osu.Framework/Graphics/Containers/Container.cs,7\c\7c4c30ce4cc3a0652eb0cb504190ba5c8613e0a1
+c
+3osu.Framework/Graphics/UserInterface/BasicButton.cs,7\6\76c3b3bd3d0440e0b31dfa53e284ebcc1936ae0e
+–
+fosu.Framework.Templates/templates/template-empty/TemplateGame.Game.Tests/Visual/TestSceneMainScreen.cs,b\5\b57525a0750e6816e7a8e0e81da8ac5dfbbf4bdb
+
+`osu.Framework.Templates/templates/template-empty/TemplateGame.Game.Tests/Visual/TestSceneMenu.cs,b\2\b271325d9453925342f4db179d263e03f3323ec2
+ƒ
+Sosu.Framework.Templates/templates/template-empty/TemplateGame.Game/ParticleLayer.cs,d\2\d2faf7c3ab82d203f131a63ade72af3e060d5564
+}
+Mosu.Framework.Templates/templates/template-empty/TemplateGame.Game/Colider.cs,f\3\f3a64bcac8bb8d938ad9ee6ec2f9cff2b8973d47
 _
-/osu.Framework/Allocation/DependencyActivator.cs,a\f\afdaa64c7d269be031bda8584b44a78e6d379ed1
-f
-6osu.Framework/Graphics/Containers/CompositeDrawable.cs,b\4\b4e89d0965cce97c1fd2afa0ca38c07cd4c1b54f
-R
-"osu.Framework/Graphics/Drawable.cs,6\d\6dcdd2ef50b1bf3a4661a62365e363519a122907
+/osu.Framework/Graphics/UserInterface/Counter.cs,0\8\08a65ab9368a9b097abd85f2d086fda3fcab0999
+N
+osu.Framework.Tests/Program.cs,d\4\d466f2057bde2daca718060b5cf7463460c3c25b
+n
+>osu.Framework.Tests/Visual/UserInterface/TestSceneSliderBar.cs,e\d\ed071434959b52ac0c6c6aa83506283d96da8fb9
 _
 /osu.Framework/Allocation/DependencyContainer.cs,c\0\c0f642f684dfbf3be842f6838e937a43eefd15d7
+a
+1osu.Framework/Graphics/UserInterface/SliderBar.cs,6\3\63ffe104a09744e5cb5c4dd0e1e835f282e7e0ca

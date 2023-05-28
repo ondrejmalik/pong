@@ -11,6 +11,7 @@ namespace TemplateGame.Game
     public partial class GameLayout : CompositeDrawable
     {
         public UdpListener udp;
+        public UdpListener handShakeUdp;
         public double lastTime = 0;
         public int bluePoints = 0;
         public int redPoints = 0;
@@ -29,6 +30,7 @@ namespace TemplateGame.Game
         public ParticleLayer particleLayer;
         public string[] UpdateData;
         public Container Box;
+        public string ip;
 
         [BackgroundDependencyLoader]
         public void load()
@@ -51,19 +53,19 @@ namespace TemplateGame.Game
                     p1 = new Player(true)
                     {
                         Anchor = Anchor.TopLeft,
-                        Origin = Anchor.TopLeft,
+                        Origin = Anchor.CentreLeft,
                         Position = new osuTK.Vector2(50, 540)
                     },
                     p2 = new Player(false)
                     {
                         Anchor = Anchor.TopRight,
-                        Origin = Anchor.TopRight,
+                        Origin = Anchor.CentreRight,
                         Position = new osuTK.Vector2(-50, 540)
                     },
                     particleLayer = new ParticleLayer()
                     {
                     },
-                    ball = new Ball()
+                    ball = new Ball(GameSettings.BallColour)
                     {
                         Anchor = Anchor.Centre,
                         Origin = Anchor.Centre,
@@ -198,22 +200,22 @@ namespace TemplateGame.Game
                 lastTime = Time.Current;
                 particleLayer.particleFrequencyCount += 1 * speedmultiplayer;
 
-                if (p1.up && p1.Position.Y > 10)
+                if (p1.up && p1.Position.Y > 10 + p1.Height / 2)
                 {
                     p1.Position = new osuTK.Vector2(p1.Position.X, p1.Position.Y - 1 * speedmultiplayer);
                 }
 
-                if (p1.down && p1.Position.Y < DrawHeight - 110)
+                if (p1.down && p1.Position.Y < DrawHeight - 11 - p1.Height / 2)
                 {
                     p1.Position = new osuTK.Vector2(p1.Position.X, p1.Position.Y + 1 * speedmultiplayer);
                 }
 
-                if (p2.up && p2.Position.Y > 10)
+                if (p2.up && p2.Position.Y > 10 + p2.Height / 2)
                 {
                     p2.Position = new osuTK.Vector2(p2.Position.X, p2.Position.Y - 1 * speedmultiplayer);
                 }
 
-                if (p2.down && p2.Position.Y < DrawHeight - 110)
+                if (p2.down && p2.Position.Y < DrawHeight - 11 - p2.Height / 2)
                 {
                     p2.Position = new osuTK.Vector2(p2.Position.X, p2.Position.Y + 1 * speedmultiplayer);
                 }

@@ -16,5 +16,13 @@ namespace TemplateGame.Game
                 settingsMenu = new SettingsMenu()
             };
         }
+
+        protected override void Update()
+        {
+            if (settingsMenu.Exit)
+            {
+                this.Push(new Menu());
+            }
+        }
     }
 }

@@ -3,9 +3,12 @@ using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Primitives;
+using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 using osuTK;
+using UdpTest.Game;
+using Color4 = osuTK.Graphics.Color4;
 
 namespace TemplateGame.Game
 {
@@ -18,12 +21,18 @@ namespace TemplateGame.Game
     {
         public _Direction Direction = _Direction.LD;
         Sprite sprite;
+        private Circle circle;
         private double lastTime = 0;
         private float speedRatio = 1;
         public bool Move = false;
+        public int Skin;
+        private TextureStore textures;
+        private string textureName = "mic";
+        private Container box;
 
-        public Ball()
+        public Ball(int skin)
         {
+            this.Skin = skin;
             AutoSizeAxes = Axes.Both;
             Origin = Anchor.Centre;
             Anchor = Anchor.Centre;
@@ -32,23 +41,63 @@ namespace TemplateGame.Game
         [BackgroundDependencyLoader]
         private void load(TextureStore textures)
         {
-            InternalChild = new Container
+            this.textures = textures;
+            InternalChild = box = new Container
             {
                 AutoSizeAxes = Axes.Both,
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
                 Children = new Drawable[]
                 {
-                    sprite = new Sprite
+                    circle = new Circle()
                     {
+                        Size = new Vector2(64, 64),
                         Anchor = Anchor.Centre,
                         Origin = Anchor.Centre,
-                        Texture = textures.Get("mic1")
                     },
                 }
             };
             Random r = new Random();
             Direction = (_Direction)r.Next(0, 4);
+        }
+
+        protected override void LoadComplete()
+        {
+            //ChangeSkin();
+            base.LoadAsyncComplete();
+        }
+
+        public void ChangeSkin()
+        {
+            switch (Skin)
+            {
+                case 0:
+                    circle.Colour = Color4.Yellow;
+                    break;
+
+                case 1:
+                    circle.Colour = Color4.Red;
+                    break;
+
+                case 2:
+                    circle.Colour = Color4.Purple;
+                    break;
+
+                case 3:
+                    circle.Colour = Color4.FloralWhite;
+                    break;
+            }
+
+            if (textures.Get(textureName + Skin) != null)
+            {
+                box.Add(sprite = new Sprite()
+                {
+                    Size = new Vector2(64, 64),
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre,
+                    Texture = textures.Get(textureName + Skin),
+                });
+            }
         }
 
         protected override void Update()
@@ -63,19 +112,19 @@ namespace TemplateGame.Game
                     switch (Direction)
                     {
                         case _Direction.LU:
-                            Position = new Vector2(Position.X - 1 * speedRatio, Position.Y - 1 * speedRatio);
+                            Position = new Vector2(Position.X - 1 * speedRatio * GameSettings.BallSpeed, Position.Y - 1 * speedRatio * GameSettings.BallSpeed);
                             break;
 
                         case _Direction.LD:
-                            Position = new Vector2(Position.X - 1 * speedRatio, Position.Y + 1 * speedRatio);
+                            Position = new Vector2(Position.X - 1 * speedRatio * GameSettings.BallSpeed, Position.Y + 1 * speedRatio * GameSettings.BallSpeed);
                             break;
 
                         case _Direction.RU:
-                            Position = new Vector2(Position.X + 1 * speedRatio, Position.Y - 1 * speedRatio);
+                            Position = new Vector2(Position.X + 1 * speedRatio * GameSettings.BallSpeed, Position.Y - 1 * speedRatio * GameSettings.BallSpeed);
                             break;
 
                         case _Direction.RD:
-                            Position = new Vector2(Position.X + 1 * speedRatio, Position.Y + 1 * speedRatio);
+                            Position = new Vector2(Position.X + 1 * speedRatio * GameSettings.BallSpeed, Position.Y + 1 * speedRatio * GameSettings.BallSpeed);
                             break;
 
                         default:
@@ -92,7 +141,7 @@ namespace TemplateGame.Game
         {
             get
             {
-                RectangleF rect = sprite.ConservativeScreenSpaceDrawQuad.AABBFloat;
+                RectangleF rect = circle.ScreenSpaceDrawQuad.AABBFloat;
                 return Quad.FromRectangle(rect);
             }
         }
