@@ -15,6 +15,7 @@ namespace TemplateGame.Game
 
         public GameContainerClient(bool isPlayer1, string ip)
         {
+            isServer = false;
             this.ip = ip;
             load();
             handShakeUdp = new UdpListener(true, ip);

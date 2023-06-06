@@ -21,9 +21,12 @@ namespace TemplateGame.Game
         private TextureStore textures;
         private string textureName = "player";
         private Container box;
+        private Vector2 hitboxSize;
 
-        public Player(bool isPlayer1)
+        public Player(bool isPlayer1, bool isServer)
         {
+            if (isServer) hitboxSize = new Vector2(15, GameSettings.PaddleSize * 15);
+            else hitboxSize = new Vector2(15,7 * 15);
             this.isPlayer1 = isPlayer1;
             AutoSizeAxes = Axes.Both;
             Origin = Anchor.Centre;
@@ -43,7 +46,7 @@ namespace TemplateGame.Game
                 {
                     hitbox = new Box()
                     {
-                        Size = new Vector2(15, GameSettings.PaddleSize * 15),
+                        Size = hitboxSize,
                         Anchor = Anchor.Centre,
                         Origin = Anchor.Centre,
                     }
@@ -78,7 +81,7 @@ namespace TemplateGame.Game
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
-                    Size = new Vector2(15, GameSettings.PaddleSize * 15),
+                    Size = hitboxSize,
                     Texture = textures.Get(textureName + GameSettings.PaddleColour),
                 });
             }

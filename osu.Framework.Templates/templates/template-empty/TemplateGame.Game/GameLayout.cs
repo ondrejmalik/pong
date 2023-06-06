@@ -33,6 +33,7 @@ namespace TemplateGame.Game
         public Container Box;
         public string ip;
         public int collided;
+        public bool isServer;
 
         [BackgroundDependencyLoader]
         public void load()
@@ -52,13 +53,13 @@ namespace TemplateGame.Game
                         Origin = Anchor.TopCentre,
                         Font = FontUsage.Default.With(size: 75)
                     },
-                    p1 = new Player(true)
+                    p1 = new Player(true, isServer)
                     {
                         Anchor = Anchor.TopLeft,
                         Origin = Anchor.CentreLeft,
                         Position = new osuTK.Vector2(50, 540)
                     },
-                    p2 = new Player(false)
+                    p2 = new Player(false, isServer)
                     {
                         Anchor = Anchor.TopRight,
                         Origin = Anchor.CentreRight,
@@ -148,6 +149,7 @@ namespace TemplateGame.Game
                     collided = 4;
                 }
             }
+
             if (collided != 0) ball.HitSound.Restart();
             return collided;
         }
@@ -225,7 +227,7 @@ namespace TemplateGame.Game
                     p2.Position = new osuTK.Vector2(p2.Position.X, p2.Position.Y + 1 * speedmultiplayer);
                 }
 
-                particleLayer.AddParticle(ball.Position);
+                if (GameSettings.EnableParticles) particleLayer.AddParticle(ball.Position);
             }
         }
 

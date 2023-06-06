@@ -46,7 +46,7 @@ namespace TemplateGame.Game
         private void load(TextureStore textures, ITrackStore tracks)
         {
             HitSound = tracks.Get("Hit");
-            HitSound.Volume.Value = 0.05f;
+            HitSound.Volume.Value = GameSettings.SoundVolume;
             this.textures = textures;
             InternalChild = box = new Container
             {

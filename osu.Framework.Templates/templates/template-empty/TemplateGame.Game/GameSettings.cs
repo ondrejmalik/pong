@@ -21,7 +21,7 @@ public class GameSettings
 
     public static void SetDefaluts()
     {
-        SoundVolume = 1;
+        SoundVolume = 10;
         BallSpeed = 1f;
         PaddleSize = 7f;
         EnableParticles = true;

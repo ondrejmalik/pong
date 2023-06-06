@@ -39,10 +39,10 @@ namespace TemplateGame.Game
         public bool Exit = false;
         public SettingsMenu()
         {
-            slider = new BindableNumberWithCurrent<double>(0.5);
+            slider = new BindableNumberWithCurrent<double>(10);
             slider.MinValue = 0;
-            slider.MaxValue = 1;
-            slider.Precision = 0.1;
+            slider.MaxValue = 100;
+            slider.Precision = 1;
             slider.Value = GameSettings.SoundVolume;
             slider2 = new BindableNumberWithCurrent<double>(0.5);
             slider2.MinValue = 0.1;
@@ -155,8 +155,9 @@ namespace TemplateGame.Game
                     {
                         Anchor = Anchor.TopCentre,
                         Origin = Anchor.TopCentre,
-                        Position = new Vector2(textOffset, 600),
+                        Position = new Vector2(0, 600),
                         LabelText = "Enable Particles",
+                        Current = new BindableBool(GameSettings.EnableParticles),
                     },
                     submitButton = new MenuButton()
                     {
@@ -203,6 +204,7 @@ namespace TemplateGame.Game
             GameSettings.BallSpeed = (float)ballSpeed.Current.Value;
             GameSettings.ScoreLimit = (int)scoreLimit.Current.Value;
             GameSettings.PaddleSize = (float)paddleSize.Current.Value;
+            GameSettings.EnableParticles = particlesCheckbox.Current.Value;
             Logger.Log(GameSettings.ToString());
             //SettingsLoader.SaveSettings(GameSettings);
         }
@@ -219,7 +221,7 @@ namespace TemplateGame.Game
 
         private void updateText()
         {
-            soundVolumeText.Text = "Sound Volume " + soundVolume.Current.Value.ToString("0.0");
+            soundVolumeText.Text = "Sound Volume " + soundVolume.Current.Value.ToString("0.");
             ballSpeedText.Text = "Ball Speed " + ballSpeed.Current.Value.ToString("0.0");
             scoreLimitText.Text = "ScoreLimit " + scoreLimit.Current.Value.ToString("0");
             paddleSizeText.Text = "Paddle Size " + paddleSize.Current.Value.ToString("0.0");

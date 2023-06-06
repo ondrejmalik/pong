@@ -99,8 +99,6 @@ c
 fosu.Framework.Templates/templates/template-empty/TemplateGame.Game.Tests/Visual/TestSceneMainScreen.cs,b\5\b57525a0750e6816e7a8e0e81da8ac5dfbbf4bdb
 ê
 `osu.Framework.Templates/templates/template-empty/TemplateGame.Game.Tests/Visual/TestSceneMenu.cs,b\2\b271325d9453925342f4db179d263e03f3323ec2
-É
-Sosu.Framework.Templates/templates/template-empty/TemplateGame.Game/ParticleLayer.cs,d\2\d2faf7c3ab82d203f131a63ade72af3e060d5564
 }
 Mosu.Framework.Templates/templates/template-empty/TemplateGame.Game/Colider.cs,f\3\f3a64bcac8bb8d938ad9ee6ec2f9cff2b8973d47
 _
@@ -133,7 +131,5 @@ _
 Tosu.Framework.Templates/templates/template-empty/TemplateGame.Game/SettingsLoader.cs,4\d\4d899e56a7dce01cce6937a2b8791845a15f7eac
 Ñ
 Tosu.Framework.Templates/templates/template-empty/TemplateGame.Game/SettingsScreen.cs,7\4\748278839caada05599025cba7904e652513542b
-z
-Josu.Framework.Templates/templates/template-empty/TemplateGame.Game/Menu.cs,f\3\f3ba2984cc08f4bc56db0b931fed2b6e7a9dadb6
 e
 5osu.Framework/Graphics/UserInterface/BasicCheckbox.cs,6\2\62ea1be9699958b373df2dacef615422df91e740

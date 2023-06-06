@@ -13,6 +13,7 @@ namespace TemplateGame.Game
     {
         public GameContainer(bool singlePlayer, string ip)
         {
+            isServer = true;
             this.ip = ip;
             GameSettings.BallColour = 0;
             load();
