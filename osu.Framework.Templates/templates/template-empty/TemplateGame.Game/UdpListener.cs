@@ -101,7 +101,9 @@ public class UdpListener
                     HandshakeMessage = GameSettings.ToString();
                     HandshakeData = Encoding.ASCII.GetBytes(HandshakeMessage);
                     client.Send(HandshakeData, HandshakeData.Length, serverIp);
+
                     if (server.Available > 0) success = true;
+                    TcpClient tcpClient = new TcpClient("127.0.0.1", 1267);
                     Thread.Sleep(32);
                 }
                 catch (Exception e)

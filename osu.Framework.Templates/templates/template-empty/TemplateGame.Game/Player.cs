@@ -84,6 +84,11 @@ namespace TemplateGame.Game
             }
         }
 
+        public void UpdateSize()
+        {
+            hitbox.Size = new Vector2(15, GameSettings.PaddleSize * 15);
+        }
+
         public bool CheckCollision(Quad quad)
         {
             if (quad.Intersects(hitbox.ScreenSpaceDrawQuad))

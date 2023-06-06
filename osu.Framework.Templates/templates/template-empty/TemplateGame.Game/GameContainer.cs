@@ -72,9 +72,82 @@ namespace TemplateGame.Game
 
             FixedUpdate();
 
-            CheckCollisionsWithBorders();
-            CheckCollisionsWithPlayers();
+            collided = CheckCollisionsWithBorders();
+            SwitchDirectionFromBorders();
+            collided = CheckCollisionsWithPlayers();
+            SwitchBallDirectionFromPlayers();
             base.Update();
+        }
+
+        public void SwitchBallDirectionFromPlayers()
+        {
+            switch (collided)
+            {
+                case 1:
+                    ball.Direction = _Direction.RU;
+                    break;
+
+                case 2:
+                    ball.Direction = _Direction.RD;
+                    break;
+
+                case 3:
+                    ball.Direction = _Direction.LU;
+                    break;
+
+                case 4:
+                    ball.Direction = _Direction.LD;
+                    break;
+            }
+        }
+
+        public void SwitchDirectionFromBorders()
+        {
+            switch (collided)
+            {
+                case 1:
+                    ball.Direction = _Direction.LD;
+                    break;
+
+                case 2:
+                    ball.Direction = _Direction.RD;
+                    break;
+
+                case 3:
+                    ball.Direction = _Direction.LU;
+                    break;
+
+                case 4:
+                    ball.Direction = _Direction.RU;
+                    break;
+
+                case 5:
+                    ball.Position = new osuTK.Vector2(0, 0);
+                    ball.Move = false;
+                    redPoints++;
+                    text.Text = "Red Win!";
+                    break;
+
+                case 6:
+                    ball.Position = new osuTK.Vector2(0, 0);
+                    ball.Move = false;
+                    bluePoints++;
+                    text.Text = "Blue Win!";
+                    break;
+            }
+
+            if (upperColider.CheckCollision(ball.CollisionQuad))
+            {
+                if (ball.Direction == _Direction.LU)
+                {
+                    ball.Direction = _Direction.LD;
+                }
+
+                if (ball.Direction == _Direction.RU)
+                {
+                    ball.Direction = _Direction.RD;
+                }
+            }
         }
 
         protected override bool OnKeyDown(KeyDownEvent e)

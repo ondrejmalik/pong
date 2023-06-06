@@ -113,3 +113,27 @@ _
 /osu.Framework/Allocation/DependencyContainer.cs,c\0\c0f642f684dfbf3be842f6838e937a43eefd15d7
 a
 1osu.Framework/Graphics/UserInterface/SliderBar.cs,6\3\63ffe104a09744e5cb5c4dd0e1e835f282e7e0ca
+d
+4osu.Framework/Bindables/BindableNumberWithCurrent.cs,3\0\30f1954cb07c76acdfea0da4a63512ccc0e2a9e4
+€
+Posu.Framework.Templates/templates/template-empty/TemplateGame.Game/MenuButton.cs,4\b\4bd3e2d11b2c32e44d548daf4a882a5b1030bd45
+f
+6osu.Framework/Graphics/UserInterface/BasicSliderBar.cs,5\f\5f347c2068c57c36ce7a64f0f71be54174225167
+T
+$osu.Framework/Graphics/Shapes/Box.cs,b\9\b9455987d56e8b1c5d3f1f6cb129ff519595a176
+O
+osu.Framework/Logging/Logger.cs,b\9\b9dbba22cacf39482b0a3637a61777513d8873a2
+s
+Cosu.Framework/Graphics/Transforms/TargetGroupingTransformTracker.cs,1\5\150c1c3239ea187edc7aa50324ea64e9e29fee25
+Y
+)osu.Framework/Input/ButtonEventManager.cs,4\4\4455ec97df0640c3637dd80eb4ff1595a06ba266
+_
+/osu.Framework/Allocation/DependencyActivator.cs,a\f\afdaa64c7d269be031bda8584b44a78e6d379ed1
+„
+Tosu.Framework.Templates/templates/template-empty/TemplateGame.Game/SettingsLoader.cs,4\d\4d899e56a7dce01cce6937a2b8791845a15f7eac
+„
+Tosu.Framework.Templates/templates/template-empty/TemplateGame.Game/SettingsScreen.cs,7\4\748278839caada05599025cba7904e652513542b
+z
+Josu.Framework.Templates/templates/template-empty/TemplateGame.Game/Menu.cs,f\3\f3ba2984cc08f4bc56db0b931fed2b6e7a9dadb6
+e
+5osu.Framework/Graphics/UserInterface/BasicCheckbox.cs,6\2\62ea1be9699958b373df2dacef615422df91e740

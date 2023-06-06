@@ -4,6 +4,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
+using osuTK;
 using UdpTest.Game;
 
 namespace TemplateGame.Game
@@ -19,11 +20,11 @@ namespace TemplateGame.Game
         public Player p1;
         public Player p2;
         public Ball ball;
-        private float speedmultiplayer;
-        Colider upperColider;
-        Colider lowerColider;
-        Colider leftColider;
-        Colider rightColider;
+        public float speedmultiplayer;
+        public Colider upperColider;
+        public Colider lowerColider;
+        public Colider leftColider;
+        public Colider rightColider;
         public BasicButton UpperTouchBox;
         public BasicButton LowerTouchBox;
         public ConcurrentQueue<string[]> dataQueue = new ConcurrentQueue<string[]>();
@@ -31,13 +32,14 @@ namespace TemplateGame.Game
         public string[] UpdateData;
         public Container Box;
         public string ip;
+        public int collided;
 
         [BackgroundDependencyLoader]
         public void load()
         {
             InternalChild = Box = new Container
             {
-                RelativeSizeAxes = Axes.Both,
+                Size = new Vector2(1920, 1080),
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
                 Children = new Drawable[]
@@ -117,18 +119,20 @@ namespace TemplateGame.Game
             });
         }
 
-        public void CheckCollisionsWithPlayers()
+        public int CheckCollisionsWithPlayers()
         {
+            int collided = 0;
+
             if (p1.CheckCollision(ball.CollisionQuad))
             {
                 if (ball.Direction == _Direction.LU)
                 {
-                    ball.Direction = _Direction.RU;
+                    collided = 1;
                 }
 
                 if (ball.Direction == _Direction.LD)
                 {
-                    ball.Direction = _Direction.RD;
+                    collided = 2;
                 }
             }
 
@@ -136,28 +140,32 @@ namespace TemplateGame.Game
             {
                 if (ball.Direction == _Direction.RU)
                 {
-                    ball.Direction = _Direction.LU;
+                    collided = 3;
                 }
 
                 if (ball.Direction == _Direction.RD)
                 {
-                    ball.Direction = _Direction.LD;
+                    collided = 4;
                 }
             }
+            if (collided != 0) ball.HitSound.Restart();
+            return collided;
         }
 
-        public void CheckCollisionsWithBorders()
+        public int CheckCollisionsWithBorders()
         {
+            int collided = 0;
+
             if (upperColider.CheckCollision(ball.CollisionQuad))
             {
                 if (ball.Direction == _Direction.LU)
                 {
-                    ball.Direction = _Direction.LD;
+                    collided = 1;
                 }
 
                 if (ball.Direction == _Direction.RU)
                 {
-                    ball.Direction = _Direction.RD;
+                    collided = 2;
                 }
             }
 
@@ -165,30 +173,27 @@ namespace TemplateGame.Game
             {
                 if (ball.Direction == _Direction.LD)
                 {
-                    ball.Direction = _Direction.LU;
+                    collided = 3;
                 }
 
                 if (ball.Direction == _Direction.RD)
                 {
-                    ball.Direction = _Direction.RU;
+                    collided = 4;
                 }
             }
 
             if (leftColider.CheckCollision(ball.CollisionQuad))
             {
-                ball.Position = new osuTK.Vector2(0, 0);
-                ball.Move = false;
-                redPoints++;
-                text.Text = "Red Win!";
+                collided = 5;
             }
 
             if (rightColider.CheckCollision(ball.CollisionQuad))
             {
-                ball.Position = new osuTK.Vector2(0, 0);
-                ball.Move = false;
-                bluePoints++;
-                text.Text = "Blue Win!";
+                collided = 6;
             }
+
+            if (collided != 0) ball.HitSound.Restart();
+            return collided;
         }
 
         public void FixedUpdate()

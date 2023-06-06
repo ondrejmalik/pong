@@ -30,10 +30,13 @@ namespace TemplateGame.Game
         private SpriteText ballSpeedText;
         private SpriteText scoreLimitText;
         private SpriteText paddleSizeText;
+        private SpriteText EnableParticlesText;
+        private SpriteText BackgroundColourText;
+        private SpriteText BallColourText;
+        private SpriteText PaddleColourText;
         private int textOffset = -500;
         private MenuButton backButton;
         public bool Exit = false;
-
         public SettingsMenu()
         {
             slider = new BindableNumberWithCurrent<double>(0.5);
@@ -147,6 +150,13 @@ namespace TemplateGame.Game
                         Anchor = Anchor.TopCentre,
                         Position = new Vector2(0, 500),
                         Size = new Vector2(300, 80),
+                    },
+                    particlesCheckbox = new BasicCheckbox()
+                    {
+                        Anchor = Anchor.TopCentre,
+                        Origin = Anchor.TopCentre,
+                        Position = new Vector2(textOffset, 600),
+                        LabelText = "Enable Particles",
                     },
                     submitButton = new MenuButton()
                     {

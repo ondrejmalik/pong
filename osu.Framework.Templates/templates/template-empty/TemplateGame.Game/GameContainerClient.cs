@@ -45,17 +45,19 @@ namespace TemplateGame.Game
             ball.Skin = Convert.ToInt32(gameSettingsString[6]);
             Scheduler.Add(() => ball.ChangeSkin());
             Scheduler.Add(() => p1.ChangeSkin()); //Change skin after handshake
+            Scheduler.Add(() => p1.UpdateSize());
+            Scheduler.Add(() => p2.UpdateSize());
             Logger.Log("Handshake complete");
             handShakeUdp.Close();
             udp = new UdpListener(true, ip);
 
-            while (true)
+            while (udp.WaitingForDestroy == false)
             {
                 if (Time.Current - lastTime > 1)
                 {
                     data = udp.Networking(p2.Position, ball.Position, clicked, text.Text.ToString());
 
-                    if (1 < data.Length)
+                    if (2 < data.Length)
                     {
                         dataQueue.Enqueue(data);
                     }
@@ -83,6 +85,8 @@ namespace TemplateGame.Game
             }
 
             FixedUpdate();
+            CheckCollisionsWithBorders();
+            CheckCollisionsWithPlayers();
             base.Update();
         }
 

@@ -42,7 +42,7 @@ namespace TemplateGame.Game
                 },
                 ipText = new BasicTextBox()
                 {
-                    Position = new osuTK.Vector2(0, 300),
+                    Position = new osuTK.Vector2(0, 500),
                     Size = new osuTK.Vector2(200, 50),
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopCentre,

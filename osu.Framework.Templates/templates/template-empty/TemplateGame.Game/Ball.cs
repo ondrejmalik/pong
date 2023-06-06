@@ -1,5 +1,6 @@
 using System;
 using osu.Framework.Allocation;
+using osu.Framework.Audio.Track;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Primitives;
@@ -24,23 +25,28 @@ namespace TemplateGame.Game
         private Circle circle;
         private double lastTime = 0;
         private float speedRatio = 1;
+        private float ballSpeed = 1;
         public bool Move = false;
         public int Skin;
         private TextureStore textures;
         private string textureName = "mic";
         private Container box;
+        public Track HitSound;
 
         public Ball(int skin)
         {
             this.Skin = skin;
+            ballSpeed = GameSettings.BallSpeed;
             AutoSizeAxes = Axes.Both;
             Origin = Anchor.Centre;
             Anchor = Anchor.Centre;
         }
 
         [BackgroundDependencyLoader]
-        private void load(TextureStore textures)
+        private void load(TextureStore textures, ITrackStore tracks)
         {
+            HitSound = tracks.Get("Hit");
+            HitSound.Volume.Value = 0.05f;
             this.textures = textures;
             InternalChild = box = new Container
             {
@@ -112,19 +118,19 @@ namespace TemplateGame.Game
                     switch (Direction)
                     {
                         case _Direction.LU:
-                            Position = new Vector2(Position.X - 1 * speedRatio * GameSettings.BallSpeed, Position.Y - 1 * speedRatio * GameSettings.BallSpeed);
+                            Position = new Vector2(Position.X - 1 * speedRatio * ballSpeed, Position.Y - 1 * speedRatio * ballSpeed);
                             break;
 
                         case _Direction.LD:
-                            Position = new Vector2(Position.X - 1 * speedRatio * GameSettings.BallSpeed, Position.Y + 1 * speedRatio * GameSettings.BallSpeed);
+                            Position = new Vector2(Position.X - 1 * speedRatio * ballSpeed, Position.Y + 1 * speedRatio * ballSpeed);
                             break;
 
                         case _Direction.RU:
-                            Position = new Vector2(Position.X + 1 * speedRatio * GameSettings.BallSpeed, Position.Y - 1 * speedRatio * GameSettings.BallSpeed);
+                            Position = new Vector2(Position.X + 1 * speedRatio * ballSpeed, Position.Y - 1 * speedRatio * ballSpeed);
                             break;
 
                         case _Direction.RD:
-                            Position = new Vector2(Position.X + 1 * speedRatio * GameSettings.BallSpeed, Position.Y + 1 * speedRatio * GameSettings.BallSpeed);
+                            Position = new Vector2(Position.X + 1 * speedRatio * ballSpeed, Position.Y + 1 * speedRatio * ballSpeed);
                             break;
 
                         default:
