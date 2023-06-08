@@ -13,7 +13,7 @@ namespace TemplateGame.Game
     {
         bool clicked = false;
 
-        public GameContainerClient(bool isPlayer1, string ip)
+        public GameContainerClient(string ip)
         {
             isServer = false;
             this.ip = ip;
@@ -39,11 +39,9 @@ namespace TemplateGame.Game
                 Thread.Sleep(320);
             }
 
-            GameSettings.PaddleColour = 1;
             Scheduler.Add(() => p2.ChangeSkin()); //Change skin before handshake
             string[] gameSettingsString = handShakeUdp.HandShake(true);
             GameSettings.SetSettings(gameSettingsString);
-            ball.Skin = Convert.ToInt32(gameSettingsString[6]);
             Scheduler.Add(() => ball.ChangeSkin());
             Scheduler.Add(() => p1.ChangeSkin()); //Change skin after handshake
             Scheduler.Add(() => p1.UpdateSize());

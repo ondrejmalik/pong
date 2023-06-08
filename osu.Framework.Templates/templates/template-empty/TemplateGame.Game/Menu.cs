@@ -1,6 +1,7 @@
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
+using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Events;
 using osu.Framework.Logging;
 using osu.Framework.Screens;
@@ -25,19 +26,27 @@ namespace TemplateGame.Game
                     Colour = Color4.Goldenrod,
                     RelativeSizeAxes = Axes.Both,
                 },
+                new SpriteText()
+                {
+                    Anchor = Anchor.TopCentre,
+                    Origin = Anchor.TopCentre,
+                    Y = 50,
+                    Text = "Pong",
+                    Font = new FontUsage(size: 80)
+                },
                 singleplayer = new MenuButton()
                 {
-                    Y = 100,
+                    Y = 200,
                     Text = "Singleplayer",
                 },
                 multiplayer = new MenuButton()
                 {
-                    Y = 400,
+                    Y = 425,
                     Text = "Multiplayer",
                 },
                 settings = new MenuButton()
                 {
-                    Y = 700,
+                    Y = 650,
                     Text = "Settings",
                 },
             };
@@ -61,7 +70,7 @@ namespace TemplateGame.Game
         {
             if (singleplayer.IsHovered)
             {
-                this.Push(new MainScreen(false, "127.0.0.1"));
+                this.Push(new MainScreen());
             }
 
             if (multiplayer.IsHovered)

@@ -19,13 +19,13 @@ namespace TemplateGame.Game
     public partial class Colider : CompositeDrawable
     {
         Side side;
-        float width;
         private Box box;
+
         public Colider(Side side)
         {
             this.side = side;
-            RelativeSizeAxes = Axes.X;
-            AutoSizeAxes = Axes.Y;
+            if (side == Side.LEFT || side == Side.RIGHT) this.Size = new Vector2(10, 1080);
+            else this.Size = new Vector2(10, 1920);
         }
 
         [BackgroundDependencyLoader]
@@ -33,15 +33,12 @@ namespace TemplateGame.Game
         {
             InternalChild = new Container
             {
-                RelativeSizeAxes = Axes.X,
-                AutoSizeAxes = Axes.Y,
+                RelativeSizeAxes = Axes.Both,
                 Children = new Drawable[]
                 {
                     box = new Box()
                     {
-                        RelativeSizeAxes = Axes.X,
-                        Origin = Anchor.TopLeft,
-                        Size = new Vector2(1, 10),
+                        RelativeSizeAxes = Axes.Both,
                         Colour = Colour4.Blue,
                     },
                 }
@@ -50,14 +47,15 @@ namespace TemplateGame.Game
 
         protected override void Update()
         {
-            width = Parent.Parent.DrawWidth;
         }
+
         public bool CheckCollision(Quad quad)
         {
             if (quad.Intersects(box.ScreenSpaceDrawQuad))
             {
                 return true;
             }
+
             return false;
         }
     }

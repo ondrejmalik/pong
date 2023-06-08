@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
@@ -65,10 +66,8 @@ namespace TemplateGame.Game
                         Origin = Anchor.CentreRight,
                         Position = new osuTK.Vector2(-50, 540)
                     },
-                    particleLayer = new ParticleLayer()
-                    {
-                    },
-                    ball = new Ball(GameSettings.BallColour)
+                    particleLayer = new ParticleLayer(),
+                    ball = new Ball()
                     {
                         Anchor = Anchor.Centre,
                         Origin = Anchor.Centre,
@@ -78,27 +77,27 @@ namespace TemplateGame.Game
                     {
                         Anchor = Anchor.TopLeft,
                         Origin = Anchor.TopLeft,
-                        Position = new osuTK.Vector2(0, 0)
+                        Position = new osuTK.Vector2(10, 10),
+                        Rotation = 270
                     },
                     lowerColider = new Colider(Side.BOTTOM)
                     {
                         Anchor = Anchor.BottomLeft,
-                        Origin = Anchor.BottomLeft,
-                        Position = new osuTK.Vector2(0, 0)
+                        Origin = Anchor.TopLeft,
+                        Position = new osuTK.Vector2(0, 0),
+                        Rotation = 270
                     },
                     leftColider = new Colider(Side.LEFT)
                     {
                         Anchor = Anchor.TopLeft,
                         Origin = Anchor.TopLeft,
-                        Position = new osuTK.Vector2(10, 0),
-                        Rotation = 90
+                        Position = new osuTK.Vector2(0, 0),
                     },
                     rightColider = new Colider(Side.RIGHT)
                     {
                         Anchor = Anchor.TopRight,
                         Origin = Anchor.TopRight,
-                        Position = new osuTK.Vector2(-10, 0),
-                        Rotation = -90
+                        Position = new osuTK.Vector2(0, 0),
                     }
                 }
             };
@@ -212,7 +211,7 @@ namespace TemplateGame.Game
                     p1.Position = new osuTK.Vector2(p1.Position.X, p1.Position.Y - 1 * speedmultiplayer);
                 }
 
-                if (p1.down && p1.Position.Y < DrawHeight - 11 - p1.Height / 2)
+                if (p1.down && p1.Position.Y < Box.DrawHeight - 11 - p1.Height / 2)
                 {
                     p1.Position = new osuTK.Vector2(p1.Position.X, p1.Position.Y + 1 * speedmultiplayer);
                 }
@@ -222,7 +221,7 @@ namespace TemplateGame.Game
                     p2.Position = new osuTK.Vector2(p2.Position.X, p2.Position.Y - 1 * speedmultiplayer);
                 }
 
-                if (p2.down && p2.Position.Y < DrawHeight - 11 - p2.Height / 2)
+                if (p2.down && p2.Position.Y < Box.DrawHeight - 11 - p2.Height / 2)
                 {
                     p2.Position = new osuTK.Vector2(p2.Position.X, p2.Position.Y + 1 * speedmultiplayer);
                 }
@@ -242,7 +241,14 @@ namespace TemplateGame.Game
 
         protected override void Dispose(bool isDisposing)
         {
-            udp.Close();
+            try
+            {
+                udp.Close();
+            }
+            catch (Exception e)
+            {
+            }
+
             base.Dispose(isDisposing);
         }
     }

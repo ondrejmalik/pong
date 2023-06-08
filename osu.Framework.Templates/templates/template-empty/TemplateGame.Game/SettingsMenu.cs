@@ -37,6 +37,9 @@ namespace TemplateGame.Game
         private int textOffset = -500;
         private MenuButton backButton;
         public bool Exit = false;
+        private SkinPicker paddleSkinPicker;
+        private SkinPicker ballSkinPicker;
+
         public SettingsMenu()
         {
             slider = new BindableNumberWithCurrent<double>(10);
@@ -83,11 +86,19 @@ namespace TemplateGame.Game
                         Origin = Anchor.TopLeft,
                         Size = new Vector2(50, 50),
                     },
+                    particlesCheckbox = new BasicCheckbox()
+                    {
+                        Anchor = Anchor.TopCentre,
+                        Origin = Anchor.TopCentre,
+                        Position = new Vector2(0, 50),
+                        LabelText = "Enable Particles",
+                        Current = new BindableBool(GameSettings.EnableParticles),
+                    },
                     soundVolumeText = new SpriteText()
                     {
                         Anchor = Anchor.TopCentre,
                         Origin = Anchor.TopCentre,
-                        Position = new Vector2(textOffset, 200),
+                        Position = new Vector2(textOffset, 100),
                         Font = new FontUsage(size: 80),
                         Text = "Volume "
                     },
@@ -97,14 +108,14 @@ namespace TemplateGame.Game
                         Colour = Color4.DarkRed,
                         Origin = Anchor.TopCentre,
                         Anchor = Anchor.TopCentre,
-                        Position = new Vector2(0, 200),
+                        Position = new Vector2(0, 100),
                         Size = new Vector2(300, 80),
                     },
                     ballSpeedText = new SpriteText()
                     {
                         Anchor = Anchor.TopCentre,
                         Origin = Anchor.TopCentre,
-                        Position = new Vector2(textOffset, 300),
+                        Position = new Vector2(textOffset, 200),
                         Font = new FontUsage(size: 80),
                         Text = "Ball Speed "
                     },
@@ -114,14 +125,14 @@ namespace TemplateGame.Game
                         Colour = Color4.DarkRed,
                         Origin = Anchor.TopCentre,
                         Anchor = Anchor.TopCentre,
-                        Position = new Vector2(0, 300),
+                        Position = new Vector2(0, 200),
                         Size = new Vector2(300, 80),
                     },
                     scoreLimitText = new SpriteText()
                     {
                         Anchor = Anchor.TopCentre,
                         Origin = Anchor.TopCentre,
-                        Position = new Vector2(textOffset, 400),
+                        Position = new Vector2(textOffset, 300),
                         Font = new FontUsage(size: 80),
                         Text = "ScoreLimit "
                     },
@@ -131,14 +142,14 @@ namespace TemplateGame.Game
                         Colour = Color4.DarkRed,
                         Origin = Anchor.TopCentre,
                         Anchor = Anchor.TopCentre,
-                        Position = new Vector2(0, 400),
+                        Position = new Vector2(0, 300),
                         Size = new Vector2(300, 80),
                     },
                     paddleSizeText = new SpriteText()
                     {
                         Anchor = Anchor.TopCentre,
                         Origin = Anchor.TopCentre,
-                        Position = new Vector2(textOffset, 500),
+                        Position = new Vector2(textOffset, 400),
                         Font = new FontUsage(size: 80),
                         Text = "Paddle Size "
                     },
@@ -148,21 +159,42 @@ namespace TemplateGame.Game
                         Colour = Color4.DarkRed,
                         Origin = Anchor.TopCentre,
                         Anchor = Anchor.TopCentre,
-                        Position = new Vector2(0, 500),
+                        Position = new Vector2(0, 400),
                         Size = new Vector2(300, 80),
                     },
-                    particlesCheckbox = new BasicCheckbox()
+                    new SpriteText()
+                    {
+                        Anchor = Anchor.TopCentre,
+                        Origin = Anchor.TopCentre,
+                        Y = 500,
+                        Font = new FontUsage(size: 80),
+                        Text = "Paddle Skin"
+                    },
+                    paddleSkinPicker = new SkinPicker()
                     {
                         Anchor = Anchor.TopCentre,
                         Origin = Anchor.TopCentre,
                         Position = new Vector2(0, 600),
-                        LabelText = "Enable Particles",
-                        Current = new BindableBool(GameSettings.EnableParticles),
                     },
+                    new SpriteText()
+                    {
+                        Anchor = Anchor.TopCentre,
+                        Origin = Anchor.TopCentre,
+                        Y = 700,
+                        Font = new FontUsage(size: 80),
+                        Text = "Ball Skin"
+                    },
+                    ballSkinPicker = new SkinPicker()
+                    {
+                        Anchor = Anchor.TopCentre,
+                        Origin = Anchor.TopCentre,
+                        Position = new Vector2(0, 800),
+                    },
+
                     submitButton = new MenuButton()
                     {
                         Text = "Submit",
-                        Y = 700,
+                        Y = 950,
                     },
                 }
             };
@@ -205,6 +237,8 @@ namespace TemplateGame.Game
             GameSettings.ScoreLimit = (int)scoreLimit.Current.Value;
             GameSettings.PaddleSize = (float)paddleSize.Current.Value;
             GameSettings.EnableParticles = particlesCheckbox.Current.Value;
+            GameSettings.PaddleColour = paddleSkinPicker.SelectedSkin;
+            GameSettings.BallColour = ballSkinPicker.SelectedSkin;
             Logger.Log(GameSettings.ToString());
             //SettingsLoader.SaveSettings(GameSettings);
         }

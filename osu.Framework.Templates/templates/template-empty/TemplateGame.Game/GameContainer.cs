@@ -11,16 +11,25 @@ namespace TemplateGame.Game
 {
     public partial class GameContainer : GameLayout
     {
-        public GameContainer(bool singlePlayer, string ip)
+        public GameContainer(string ip) //multiplayer
         {
-            isServer = true;
             this.ip = ip;
-            GameSettings.BallColour = 0;
             load();
-            handShakeUdp = new UdpListener(false, ip);
             RelativeSizeAxes = Axes.Both;
+            handShakeUdp = new UdpListener(false, ip);
             Thread networkThread = new Thread(new ThreadStart(Networking));
             networkThread.Start();
+        }
+
+        public GameContainer() //singleplayer
+        {
+            this.ip = ip;
+            load();
+            RelativeSizeAxes = Axes.Both;
+            Scheduler.Add(() => p1.ChangeSkin());
+            Scheduler.Add(() => ball.ChangeSkin());
+            Scheduler.Add(() => GameSettings.PaddleColour = 1);
+            Scheduler.Add(() => p2.ChangeSkin());
         }
 
         private void Networking()
@@ -38,8 +47,6 @@ namespace TemplateGame.Game
                 Thread.Sleep(320);
             }
 
-            GameSettings.BallColour = 0;
-            GameSettings.PaddleColour = 2;
             Scheduler.Add(() => p1.ChangeSkin()); //Change skin before handshake
             Scheduler.Add(() => ball.ChangeSkin());
             string[] gameSettingsString = handShakeUdp.HandShake(false);
@@ -225,7 +232,14 @@ namespace TemplateGame.Game
 
         protected override void Dispose(bool isDisposing)
         {
-            udp.Close();
+            try
+            {
+                udp.Close();
+            }
+            catch (Exception e)
+            {
+            }
+
             base.Dispose(isDisposing);
         }
     }

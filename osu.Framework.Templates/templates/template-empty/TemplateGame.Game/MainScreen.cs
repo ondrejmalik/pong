@@ -9,10 +9,15 @@ namespace TemplateGame.Game
         private GameContainer gameContainer;
         private GameContainerClient gameContaineClient;
 
-        public MainScreen(bool isPlayer1,string ip)
+        public MainScreen(bool isPlayer1, string ip)
         {
-            if (!isPlayer1) gameContainer = new GameContainer(isPlayer1,ip);
-            else gameContaineClient = new GameContainerClient(isPlayer1,ip);
+            if (!isPlayer1) gameContainer = new GameContainer(ip);
+            else gameContaineClient = new GameContainerClient(ip);
+        }
+
+        public MainScreen()
+        {
+            gameContainer = new GameContainer();
         }
 
         [BackgroundDependencyLoader]
@@ -32,6 +37,11 @@ namespace TemplateGame.Game
                     gameContaineClient
                 };
             }
+        }
+
+        protected override void Update()
+        {
+            //backbutton for game
         }
     }
 }

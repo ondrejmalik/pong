@@ -1,9 +1,11 @@
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
+using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
 using osu.Framework.Screens;
+using osuTK;
 using osuTK.Graphics;
 
 namespace TemplateGame.Game
@@ -13,6 +15,7 @@ namespace TemplateGame.Game
         private MenuButton server;
         private MenuButton client;
         private BasicTextBox ipText;
+        private MenuButton back;
 
         [BackgroundDependencyLoader]
         private void load()
@@ -24,9 +27,23 @@ namespace TemplateGame.Game
                     Colour = Color4.Goldenrod,
                     RelativeSizeAxes = Axes.Both,
                 },
+                back = new MenuButton()
+                {
+                    Anchor = Anchor.TopLeft,
+                    Origin = Anchor.TopLeft,
+                    Size = new Vector2(50, 50),
+                },
+                new SpriteText()
+                {
+                    Anchor = Anchor.TopCentre,
+                    Origin = Anchor.TopCentre,
+                    Y = 50,
+                    Text = "Multiplayer",
+                    Font = new FontUsage(size: 80)
+                },
                 server = new MenuButton()
                 {
-                    Y = 100,
+                    Y = 200,
                     Text = "server",
                     Size = new osuTK.Vector2(400, 100),
                     Anchor = Anchor.TopCentre,
@@ -34,7 +51,7 @@ namespace TemplateGame.Game
                 },
                 client = new MenuButton()
                 {
-                    Y = 300,
+                    Y = 425,
                     Text = "client",
                     Size = new osuTK.Vector2(400, 100),
                     Anchor = Anchor.TopCentre,
@@ -42,8 +59,8 @@ namespace TemplateGame.Game
                 },
                 ipText = new BasicTextBox()
                 {
-                    Position = new osuTK.Vector2(0, 500),
-                    Size = new osuTK.Vector2(200, 50),
+                    Position = new osuTK.Vector2(0, 650),
+                    Size = new osuTK.Vector2(400, 100),
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopCentre,
                     Text = "127.0.0.1",
@@ -54,32 +71,23 @@ namespace TemplateGame.Game
 
         protected override bool OnMouseDown(MouseDownEvent e)
         {
-            if (server.IsHovered)
-            {
-                this.Push(new MainScreen(false, ipText.Text.ToString()));
-            }
-
-            if (client.IsHovered)
-            {
-                this.Push(new MainScreen(true, ipText.Text.ToString()));
-            }
-
+            isHovered();
             return base.OnMouseDown(e);
         }
 
         protected override bool OnTouchDown(TouchDownEvent e)
         {
-            if (server.IsHovered)
-            {
-                this.Push(new MainScreen(false, ipText.Text.ToString()));
-            }
-
-            if (client.IsHovered)
-            {
-                this.Push(new MainScreen(true, ipText.Text.ToString()));
-            }
-
+            isHovered();
             return base.OnTouchDown(e);
+        }
+
+        private void isHovered()
+        {
+            if (back.IsHovered) this.Push(new Menu());
+
+            if (server.IsHovered) this.Push(new MainScreen(false, ipText.Text.ToString()));
+
+            if (client.IsHovered) this.Push(new MainScreen(true, ipText.Text.ToString()));
         }
     }
 }

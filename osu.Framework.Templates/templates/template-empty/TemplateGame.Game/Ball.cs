@@ -27,15 +27,13 @@ namespace TemplateGame.Game
         private float speedRatio = 1;
         private float ballSpeed = 1;
         public bool Move = false;
-        public int Skin;
         private TextureStore textures;
         private string textureName = "mic";
         private Container box;
         public Track HitSound;
 
-        public Ball(int skin)
+        public Ball()
         {
-            this.Skin = skin;
             ballSpeed = GameSettings.BallSpeed;
             AutoSizeAxes = Axes.Both;
             Origin = Anchor.Centre;
@@ -75,7 +73,7 @@ namespace TemplateGame.Game
 
         public void ChangeSkin()
         {
-            switch (Skin)
+            switch (GameSettings.BallColour)
             {
                 case 0:
                     circle.Colour = Color4.Yellow;
@@ -90,18 +88,18 @@ namespace TemplateGame.Game
                     break;
 
                 case 3:
-                    circle.Colour = Color4.FloralWhite;
+                    circle.Colour = Color4.Goldenrod;
                     break;
             }
 
-            if (textures.Get(textureName + Skin) != null)
+            if (textures.Get(textureName + GameSettings.BallColour) != null)
             {
                 box.Add(sprite = new Sprite()
                 {
                     Size = new Vector2(64, 64),
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
-                    Texture = textures.Get(textureName + Skin),
+                    Texture = textures.Get(textureName + GameSettings.BallColour),
                 });
             }
         }
