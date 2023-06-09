@@ -323,7 +323,7 @@ namespace osu.Framework.Graphics.Cursor
 
             public virtual void SetContent(LocalisableString content) => text.Text = content;
 
-            private const float text_size = 16;
+            private const float text_size = 30;
 
             /// <summary>
             /// Constructs a new tooltip that starts out invisible.

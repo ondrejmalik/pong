@@ -1,5 +1,6 @@
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Cursor;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
@@ -16,6 +17,7 @@ namespace TemplateGame.Game
         private MenuButton client;
         private BasicTextBox ipText;
         private MenuButton back;
+        private TooltipContainer.Tooltip tooltip;
 
         [BackgroundDependencyLoader]
         private void load()
@@ -65,7 +67,13 @@ namespace TemplateGame.Game
                     Origin = Anchor.TopCentre,
                     Text = "127.0.0.1",
                     LengthLimit = 16,
-                }
+                },
+                tooltip = new TooltipContainer.Tooltip()
+                {
+                    Anchor = Anchor.TopLeft,
+                    Origin = Anchor.TopLeft,
+                    TooltipText = "Set this to other player's IP address",
+                },
             };
         }
 
@@ -88,6 +96,21 @@ namespace TemplateGame.Game
             if (server.IsHovered) this.Push(new MainScreen(false, ipText.Text.ToString()));
 
             if (client.IsHovered) this.Push(new MainScreen(true, ipText.Text.ToString()));
+        }
+
+        protected override bool OnMouseMove(MouseMoveEvent e)
+        {
+            if (ipText.IsHovered)
+            {
+                tooltip.Position = new Vector2(e.MousePosition.X + 50, e.MousePosition.Y + 50);
+                tooltip.Show();
+            }
+            else
+            {
+                tooltip.Hide();
+            }
+
+            return base.OnMouseMove(e);
         }
     }
 }

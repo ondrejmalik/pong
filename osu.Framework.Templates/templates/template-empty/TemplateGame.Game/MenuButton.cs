@@ -1,6 +1,7 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using System;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
@@ -18,6 +19,7 @@ public partial class MenuButton : Button
     public SpriteText SpriteText;
     private LocalisableString text;
     private Colour4 boxColour;
+    private Texture texture;
 
     public MenuButton()
     {
@@ -46,6 +48,25 @@ public partial class MenuButton : Button
                 Text = text,
                 Font = new FontUsage(size: this.Height * 0.6f)
             });
+
+        if (texture != null)
+        {
+            Add(
+                sprite = new Sprite()
+                {
+                    Anchor = Anchor.Centre,
+                    Origin = Anchor.Centre,
+                    RelativeSizeAxes = Axes.Both,
+                    FillMode = FillMode.Fit,
+                    Texture = textures.Get("MenuButton.icon")
+                });
+        }
+    }
+
+    protected override void LoadComplete()
+    {
+        if (sprite != null) sprite.Texture = texture;
+        base.LoadComplete();
     }
 
     public LocalisableString Text
@@ -56,12 +77,29 @@ public partial class MenuButton : Button
             text = value;
         }
     }
+
     public Colour4 BoxColour
     {
         get => background?.Colour ?? default;
         set
         {
-            boxColour = value;
+            try
+            {
+                background.Colour = value;
+            }
+            catch (Exception e)
+            {
+                boxColour = value;
+            }
+        }
+    }
+
+    public Texture Texture
+    {
+        get => sprite.Texture;
+        set
+        {
+            if (value != null) texture = value;
         }
     }
 }

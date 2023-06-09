@@ -1,6 +1,8 @@
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
+using osu.Framework.Input.Events;
 using osu.Framework.Screens;
+using osuTK.Input;
 
 namespace TemplateGame.Game
 {
@@ -41,7 +43,19 @@ namespace TemplateGame.Game
 
         protected override void Update()
         {
-            //backbutton for game
+        }
+
+        protected override bool OnKeyDown(KeyDownEvent e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                if (gameContaineClient != null) gameContaineClient.Dispose();
+                else gameContainer.Dispose();
+                this.Push(new Menu());
+                return base.OnKeyDown(e);
+            }
+
+            return base.OnKeyDown(e);
         }
     }
 }

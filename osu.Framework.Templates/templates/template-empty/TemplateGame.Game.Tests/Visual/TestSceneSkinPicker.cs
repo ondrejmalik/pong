@@ -13,7 +13,7 @@ namespace TemplateGame.Game.Tests.Visual
         [BackgroundDependencyLoader]
         private void load()
         {
-            Add(new SkinPicker()
+            Add(new SkinPicker("mic0", "mic1", "mic2", "mic3")
             {
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,

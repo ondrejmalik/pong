@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Concurrent;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
@@ -241,14 +240,8 @@ namespace TemplateGame.Game
 
         protected override void Dispose(bool isDisposing)
         {
-            try
-            {
-                udp.Close();
-            }
-            catch (Exception e)
-            {
-            }
-
+            if (handShakeUdp != null) handShakeUdp.Close();
+            if (udp != null) udp.Close();
             base.Dispose(isDisposing);
         }
     }

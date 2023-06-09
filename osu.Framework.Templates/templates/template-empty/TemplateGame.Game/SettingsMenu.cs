@@ -77,7 +77,7 @@ namespace TemplateGame.Game
                 {
                     new Box()
                     {
-                        Colour = Color4.Goldenrod,
+                        Colour = new Color4((byte)3, (byte)127, (byte)196, byte.MaxValue),
                         RelativeSizeAxes = Axes.Both,
                     },
                     backButton = new MenuButton()
@@ -122,7 +122,7 @@ namespace TemplateGame.Game
                     ballSpeed = new BasicSliderBar<double>()
                     {
                         Current = slider2,
-                        Colour = Color4.DarkRed,
+                        Colour = Color4.Purple,
                         Origin = Anchor.TopCentre,
                         Anchor = Anchor.TopCentre,
                         Position = new Vector2(0, 200),
@@ -139,7 +139,7 @@ namespace TemplateGame.Game
                     scoreLimit = new BasicSliderBar<double>()
                     {
                         Current = slider3,
-                        Colour = Color4.DarkRed,
+                        Colour = Color4.Green,
                         Origin = Anchor.TopCentre,
                         Anchor = Anchor.TopCentre,
                         Position = new Vector2(0, 300),
@@ -156,7 +156,7 @@ namespace TemplateGame.Game
                     paddleSize = new BasicSliderBar<double>()
                     {
                         Current = slider4,
-                        Colour = Color4.DarkRed,
+                        Colour = Color4.Fuchsia,
                         Origin = Anchor.TopCentre,
                         Anchor = Anchor.TopCentre,
                         Position = new Vector2(0, 400),
@@ -184,7 +184,7 @@ namespace TemplateGame.Game
                         Font = new FontUsage(size: 80),
                         Text = "Ball Skin"
                     },
-                    ballSkinPicker = new SkinPicker()
+                    ballSkinPicker = new SkinPicker("mic0", "mic1", "mic2", "mic3")
                     {
                         Anchor = Anchor.TopCentre,
                         Origin = Anchor.TopCentre,
@@ -255,7 +255,7 @@ namespace TemplateGame.Game
 
         private void updateText()
         {
-            soundVolumeText.Text = "Sound Volume " + soundVolume.Current.Value.ToString("0.");
+            soundVolumeText.Text = "Sound Volume " + soundVolume.Current.Value.ToString("0.") + "%";
             ballSpeedText.Text = "Ball Speed " + ballSpeed.Current.Value.ToString("0.0");
             scoreLimitText.Text = "ScoreLimit " + scoreLimit.Current.Value.ToString("0");
             paddleSizeText.Text = "Paddle Size " + paddleSize.Current.Value.ToString("0.0");

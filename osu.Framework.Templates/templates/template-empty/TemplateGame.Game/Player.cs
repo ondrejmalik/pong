@@ -26,7 +26,7 @@ namespace TemplateGame.Game
         public Player(bool isPlayer1, bool isServer)
         {
             if (isServer) hitboxSize = new Vector2(15, GameSettings.PaddleSize * 15);
-            else hitboxSize = new Vector2(15,7 * 15);
+            else hitboxSize = new Vector2(15, 7 * 15);
             this.isPlayer1 = isPlayer1;
             AutoSizeAxes = Axes.Both;
             Origin = Anchor.Centre;

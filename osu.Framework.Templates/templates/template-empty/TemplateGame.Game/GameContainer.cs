@@ -75,7 +75,7 @@ namespace TemplateGame.Game
             {
                 //Logger.Log(dataQueue.Count.ToString());
                 p2.Position = new Vector2(p2.Position.X, Convert.ToSingle(UpdateData[1]));
-                if (!ball.Move) ball.Move = Convert.ToBoolean(UpdateData[4]);
+                if (!ball.Move && Convert.ToBoolean(UpdateData[4])) BallStartMoving();
             }
 
             FixedUpdate();
@@ -170,12 +170,12 @@ namespace TemplateGame.Game
                 p1.down = true;
             }
 
-            if (e.Key == Key.Up)
+            if (e.Key == Key.Up && ip == null)
             {
                 p2.up = true;
             }
 
-            if (e.Key == Key.Down)
+            if (e.Key == Key.Down && ip == null)
             {
                 p2.down = true;
             }
@@ -219,12 +219,12 @@ namespace TemplateGame.Game
                 p1.down = false;
             }
 
-            if (e.Key == Key.Up)
+            if (e.Key == Key.Up && ip == null)
             {
                 p2.up = false;
             }
 
-            if (e.Key == Key.Down)
+            if (e.Key == Key.Down && ip == null)
             {
                 p2.down = false;
             }
@@ -232,14 +232,6 @@ namespace TemplateGame.Game
 
         protected override void Dispose(bool isDisposing)
         {
-            try
-            {
-                udp.Close();
-            }
-            catch (Exception e)
-            {
-            }
-
             base.Dispose(isDisposing);
         }
     }
