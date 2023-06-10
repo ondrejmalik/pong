@@ -77,13 +77,13 @@ namespace TemplateGame.Game
 
             if (textures.Get(textureName + GameSettings.PaddleColour) != null)
             {
-                box.Add(sprite = new Sprite()
+                Schedule(() => box.Add(sprite = new Sprite()
                 {
                     Anchor = Anchor.Centre,
                     Origin = Anchor.Centre,
-                    Size = hitboxSize,
+                    Size = hitbox.Size,
                     Texture = textures.Get(textureName + GameSettings.PaddleColour),
-                });
+                }));
             }
         }
 

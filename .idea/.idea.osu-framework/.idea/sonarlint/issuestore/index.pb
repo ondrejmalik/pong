@@ -167,7 +167,3 @@ a
 1osu.Framework/Graphics/Cursor/TooltipContainer.cs,a\7\a7d6fa7e27e6285bc319038f045364cbd9eec88f
 –
 fosu.Framework.Templates/templates/template-empty/TemplateGame.Game.Tests/Visual/TestSceneSkinPicker.cs,3\0\30695708692a6f34c72cd84786ced0425ae950b2
-‰
-Yosu.Framework.Templates/templates/template-empty/TemplateGame.Game/GameContainerClient.cs,1\a\1a0711959cf027cd2c15e3345de743e8fdedbd75
-|
-Losu.Framework.Templates/templates/template-empty/TemplateGame.Game/Player.cs,1\b\1bb780daaef02b2e99e30e426480db36a00308fd

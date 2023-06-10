@@ -135,14 +135,14 @@ namespace TemplateGame.Game
                     ball.Position = new osuTK.Vector2(0, 0);
                     ball.Move = false;
                     redPoints++;
-                    text.Text = "Red Win!";
+                    text.Text = "Player 2 Win!";
                     break;
 
                 case 6:
                     ball.Position = new osuTK.Vector2(0, 0);
                     ball.Move = false;
                     bluePoints++;
-                    text.Text = "Blue Win!";
+                    text.Text = "Player 1 Win!";
                     break;
             }
 

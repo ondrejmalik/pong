@@ -37,7 +37,7 @@ namespace TemplateGame.Game
                 singleplayer = new MenuButton()
                 {
                     Y = 200,
-                    Text = "Singleplayer",
+                    Text = "Local",
                 },
                 multiplayer = new MenuButton()
                 {
