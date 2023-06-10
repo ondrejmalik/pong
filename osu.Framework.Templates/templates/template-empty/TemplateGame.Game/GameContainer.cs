@@ -14,6 +14,7 @@ namespace TemplateGame.Game
         public GameContainer(string ip) //multiplayer
         {
             this.ip = ip;
+            isServer = true;
             load();
             RelativeSizeAxes = Axes.Both;
             handShakeUdp = new UdpListener(false, ip);
@@ -24,6 +25,7 @@ namespace TemplateGame.Game
         public GameContainer() //singleplayer
         {
             this.ip = ip;
+            isServer = true;
             load();
             RelativeSizeAxes = Axes.Both;
             Scheduler.Add(() => p1.ChangeSkin());

@@ -41,7 +41,7 @@ public class GameSettings
         SoundVolume = Convert.ToDouble(settings[0]);
         BallSpeed = Convert.ToSingle(settings[1]);
         PaddleSize = Convert.ToSingle(settings[2]);
-        EnableParticles = Convert.ToBoolean(settings[3]);
+        //EnableParticles = Convert.ToBoolean(settings[3]);
         ScoreLimit = Convert.ToInt32(settings[4]);
         BackgroundColour = Convert.ToInt32(settings[5]);
         BallColour = Convert.ToInt32(settings[6]);
