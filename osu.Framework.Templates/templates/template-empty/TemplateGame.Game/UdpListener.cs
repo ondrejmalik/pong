@@ -14,15 +14,15 @@ public class UdpListener
         if (isClient)
         {
             this.client = new UdpClient();
-            this.serverIp = new IPEndPoint(IPAddress.Parse(ip), 1235); //adresa na kterou se bude posilat
-            this.server = new UdpClient(1236); //adresa serveru
+            this.serverIp = new IPEndPoint(IPAddress.Parse(ip), 65525); //adresa na kterou se bude posilat
+            this.server = new UdpClient(65535); //adresa serveru
             this.remoteIp = new IPEndPoint(IPAddress.Any, 0);
         }
         else
         {
             this.client = new UdpClient();
-            this.serverIp = new IPEndPoint(IPAddress.Parse(ip), 1236); //adresa na kterou se bude posilat
-            this.server = new UdpClient(1235); //adresa serveru
+            this.serverIp = new IPEndPoint(IPAddress.Parse(ip), 65535); //adresa na kterou se bude posilat
+            this.server = new UdpClient(65525); //adresa serveru
             this.remoteIp = new IPEndPoint(IPAddress.Any, 0);
         }
     }

@@ -159,11 +159,15 @@ l
 <osu.Framework.Tests/Visual/UserInterface/TestSceneTooltip.cs,f\4\f47deb1fcc7781431e5fa9da78249dd0e7db13ac
 U
 %osu.Framework/Threading/GameThread.cs,2\1\21c5a02c4af0e207bc058ffa378470ba4be84a75
-
-Qosu.Framework.Templates/templates/template-empty/TemplateGame.Game/UdpListener.cs,7\4\74b87910809a6aa46deaff0f145397adfe3d2a2e
 †
 Vosu.Framework.Templates/templates/template-empty/TemplateGame.Game/ServerClientMenu.cs,4\1\411e0c9386837532e629bc99df3a1bdb92909a39
 a
 1osu.Framework/Graphics/Cursor/TooltipContainer.cs,a\7\a7d6fa7e27e6285bc319038f045364cbd9eec88f
 –
 fosu.Framework.Templates/templates/template-empty/TemplateGame.Game.Tests/Visual/TestSceneSkinPicker.cs,3\0\30695708692a6f34c72cd84786ced0425ae950b2
+‚
+Rosu.Framework.Templates/templates/template-empty/TemplateGame.Game/SettingsMenu.cs,e\6\e6900944768aa7a70acdf24b40f39c6abf441acc
+‚
+Rosu.Framework.Templates/templates/template-empty/TemplateGame.Game/GameSettings.cs,4\6\46d88b5fff8502cc2100dc0c7315fb442dc11278
+A
+osu-framework.sln,8\4\844d8791670e3aabe6fef7de3ed5f0d3d88e3a20
